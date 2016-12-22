@@ -304,7 +304,7 @@ void teleport_to_marker()
 
 	if (coords.x == 0 && coords.y == 0)
 	{
-		notifyMap("No Waypoint has been set!", 0);
+		NotifyMap("No Waypoint has been set!", 0);
 		return;
 	}
 
@@ -366,7 +366,7 @@ void teleport_to_objective()
 		}
 	}
 
-	blipFound ? teleport_to_coords(e, coords) : notifyMap("Objective not found!", 0);
+	blipFound ? teleport_to_coords(e, coords) : NotifyMap("Objective not found!", 0);
 	
 }
 
@@ -398,9 +398,17 @@ std::string show_keyboard(char* title_id, char* prepopulated_text)
 }
 
 //NOTIFICATIONS
-void notifyMap(std::string msg, BOOL blink) {
+void NotifyMap(std::string msg, BOOL blink) {
 	UI::SET_TEXT_OUTLINE();
 	UI::_SET_NOTIFICATION_TEXT_ENTRY("STRING");
 	UI::ADD_TEXT_COMPONENT_SUBSTRING_PLAYER_NAME(&msg[0u]);
 	UI::_DRAW_NOTIFICATION(blink, FALSE);
+}
+
+//HELP TEXT
+void HelpText(std::string msg, int shape = -1)
+{
+	UI::_SET_TEXT_COMPONENT_FORMAT("STRING");
+	UI::ADD_TEXT_COMPONENT_SUBSTRING_PLAYER_NAME(&msg[0u]);
+	UI::_DISPLAY_HELP_TEXT_FROM_STRING_LABEL(0, 0, 0, shape);
 }
