@@ -109,7 +109,7 @@ void Script::onTick()
 
 	if (KeyJustUp(VK_F7))
 	{
-		std::string cmd = ShowKeyboard("FMMC_KEY_TIP8", "");
+		std::string cmd = show_keyboard("FMMC_KEY_TIP8", "");
 		if (cmd.empty())
 			return;
 		std::vector<std::string> splitCmd = split(cmd, " ");
@@ -253,7 +253,7 @@ std::string Script::ParseCommand(std::string cmd, std::vector<std::string> args)
 
 	if (strcmp(cmd.c_str(), "teleport_waypoint") == 0)
 	{
-		TeleportToMarker();
+		teleport_to_marker();
 		return "~g~Teleported to waypoint";
 	}
 
@@ -291,9 +291,9 @@ std::string Script::ParseCommand(std::string cmd, std::vector<std::string> args)
 
 	if (strcmp(cmd.c_str(), "kill_cops") == 0)
 	{
-		UpdateNearbyPeds(PLAYER::PLAYER_PED_ID(), 2000);
+		update_nearby_peds(PLAYER::PLAYER_PED_ID(), 2000);
 		int killed = 0;
-		for each(Ped p in GetNearbyPeds())
+		for each(Ped p in getNearbyPeds())
 		{
 			if (PED::GET_PED_TYPE(p) == 6) //Da Fuzz
 			{

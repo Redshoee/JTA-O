@@ -48,7 +48,7 @@ void LoadAnim(char * dict)
 	}
 }
 
-void PlayAnimation(Ped ped, bool loop, char * dict, char * anim)
+void playAnimation(Ped ped, bool loop, char * dict, char * anim)
 {
 	LoadAnim(dict);
 	int a = -1;
@@ -65,7 +65,7 @@ void PlayAnimation(Ped ped, bool loop, char * dict, char * anim)
 }
 
 //Skins
-bool ApplyChosenSkin(DWORD model)
+bool applyChosenSkin(DWORD model)
 {
 	if (STREAMING::IS_MODEL_IN_CDIMAGE(model) && STREAMING::IS_MODEL_VALID(model))
 	{
@@ -99,10 +99,10 @@ bool ApplyChosenSkin(DWORD model)
 	return false;
 }
 
-bool ApplyChosenSkin(std::string skinName)
+bool applyChosenSkin(std::string skinName)
 {
 	DWORD model = $((char *)skinName.c_str());
-	return ApplyChosenSkin(model);
+	return applyChosenSkin(model);
 }
 
 //CONTROL
@@ -181,12 +181,12 @@ void GodMode(bool toggle)
 }
 
 //NEARBY PEDS
-std::set<Ped> GetNearbyPeds()
+std::set<Ped> getNearbyPeds()
 {
 	return lastSeenPeds;
 }
 
-void UpdateNearbyPeds(Ped playerPed, int count)
+void update_nearby_peds(Ped playerPed, int count)
 {
 	const int numElements = count;
 	const int arrSize = numElements * 2 + 2;
@@ -230,7 +230,7 @@ void UpdateNearbyPeds(Ped playerPed, int count)
 }
 
 //CALM PEDS
-void SetAllNearbyPedsToCalm()
+void set_all_nearby_peds_to_calm()
 {
 	for each (Ped xped in lastSeenPeds)
 	{
@@ -241,7 +241,7 @@ void SetAllNearbyPedsToCalm()
 }
 
 //Converts Radians to Degrees
-float DegToRad(float degs)
+float degToRad(float degs)
 {
 	return degs*3.141592653589793f / 180.f;
 }
@@ -252,28 +252,28 @@ Hash $(std::string str) {
 }
 
 // quick function to get - coords - of - entity:
-Vector3 CoordsOf(Entity entity) {
+Vector3 coordsOf(Entity entity) {
 	return ENTITY::GET_ENTITY_COORDS(entity, 1);
 }
 
 //quick function to get distance between 2 points: eg - if (distanceBetween(coordsOf(player), targetCoords) < 50)
-float DistanceBetween(Vector3 A, Vector3 B) {
+float distanceBetween(Vector3 A, Vector3 B) {
 	return GAMEPLAY::GET_DISTANCE_BETWEEN_COORDS(A.x, A.y, A.z, B.x, B.y, B.z, 1);
 }
 
 //quick "get random int in range 0-x" function:
-int RndInt(int start, int end) {
+int rndInt(int start, int end) {
 	return GAMEPLAY::GET_RANDOM_INT_IN_RANGE(start, end);
 }
 
 //TELEPORTATION
-void TeleportToCoords(Entity e, Vector3 coords)
+void teleport_to_coords(Entity e, Vector3 coords)
 {
 	ENTITY::SET_ENTITY_COORDS_NO_OFFSET(e, coords.x, coords.y, coords.z, 0, 0, 1);
 	WAIT(0);
 }
 
-Vector3 GetBlipMarker()
+Vector3 get_blip_marker()
 {
 	static Vector3 zero;
 	Vector3 coords;
@@ -298,9 +298,9 @@ Vector3 GetBlipMarker()
 	return zero;
 }
 
-void TeleportToMarker()
+void teleport_to_marker()
 {
-	Vector3 coords = GetBlipMarker();
+	Vector3 coords = get_blip_marker();
 
 	if (coords.x == 0 && coords.y == 0)
 	{
@@ -337,10 +337,10 @@ void TeleportToMarker()
 		WEAPON::GIVE_DELAYED_WEAPON_TO_PED(PLAYER::PLAYER_PED_ID(), 0xFBAB5776, 1, 0);
 	}
 	//do it
-	TeleportToCoords(e, coords);
+	teleport_to_coords(e, coords);
 }
 
-void TeleportToObjective()
+void teleport_to_objective()
 {
 	Vector3 coords;
 	Entity e;
@@ -371,7 +371,7 @@ void TeleportToObjective()
 }
 
 //In Game KEYBOARD
-std::string ShowKeyboard(char* title_id, char* prepopulated_text)
+std::string show_keyboard(char* title_id, char* prepopulated_text)
 {
 	DWORD time = GetTickCount() + 400;
 	while (GetTickCount() < time)

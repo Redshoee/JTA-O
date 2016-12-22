@@ -9,10 +9,10 @@ Ped CreatePed(char* PedName, Vector3 SpawnCoordinates, int ped_type, bool networ
 
 //Animations
 void LoadAnim(char * dict);
-void PlayAnimation(Ped ped, bool loop, char * dict, char * anim);
+void playAnimation(Ped ped, bool loop, char * dict, char * anim);
 
 //SKINS
-bool ApplyChosenSkin(std::string skinName);
+bool applyChosenSkin(std::string skinName);
 
 //CONTROL
 void RequestControlOfEnt(Entity entity);
@@ -24,36 +24,38 @@ void ApplyForceToEntity(Entity e, float x, float y, float z);
 void GodMode(bool toggle);
 
 //CALM PEDS
-void SetAllNearbyPedsToCalm();
+void set_all_nearby_peds_to_calm();
 
 //NEARBY PEDS
-std::set<Ped> GetNearbyPeds();
-void UpdateNearbyPeds(Ped playerPed, int count);
+std::set<Ped> getNearbyPeds();
+void update_nearby_peds(Ped playerPed, int count);
 
 //little one-line function called '$' to convert $TRING into a hash-key:
 Hash $(std::string str);
 
 //Converts Radians to Degrees
-float DegToRad(float degs);
+float degToRad(float degs);
 
 //quick function to get-coords-of-entity:
-Vector3 CoordsOf(Entity entity);
+Vector3 coordsOf(Entity entity);
 
 //quick function to get distance between 2 points:
-float DistanceBetween(Vector3 A, Vector3 B);
+float distanceBetween(Vector3 A, Vector3 B);
 
 //quick "get random int in range 0-x" function:
-int RndInt(int start, int end);
+int rndInt(int start, int end);
 
 //TELEPORTATION
-Vector3 GetBlipMarker();
-void TeleportToMarker();
-void TeleportToObjective();
-void TeleportToCoords(Entity e, Vector3 coords);
+Vector3 get_blip_marker();
+void teleport_to_marker();
+void teleport_to_objective();
+void teleport_to_coords(Entity e, Vector3 coords);
 
 //KEYBOARD
-std::string ShowKeyboard(char* title_id, char* prepopulated_text);
+std::string show_keyboard(char* title_id, char* prepopulated_text);
 
 //NOTIFICATION
-void NotifyMap(std::string msg, BOOL blink);
-void HelpText(std::string, int shape = -1);
+void notifyMap(std::string msg, BOOL blink);
+
+//VEHICLE
+void request_vehicle();
