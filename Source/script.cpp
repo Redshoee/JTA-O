@@ -119,9 +119,7 @@ void Script::onTick()
 	if(KeyJustUp(VK_KEY_L))
 	{ 
 		if (PED::IS_PED_IN_ANY_VEHICLE(plyPed, TRUE))
-		{
 			VEHICLE::SET_VEHICLE_FORWARD_SPEED(PED::GET_VEHICLE_PED_IS_IN(plyPed, FALSE), speed);
-		}
 	}
 
 	if (dropPlayer != -1)
@@ -132,7 +130,8 @@ void Script::onTick()
 	}
 }
 
-void replaceAll(std::string& str, const std::string& from, const std::string& to) {
+void replaceAll(std::string& str, const std::string& from, const std::string& to)
+{
 	if (from.empty())
 		return;
 	size_t start_pos = 0;
@@ -141,13 +140,13 @@ void replaceAll(std::string& str, const std::string& from, const std::string& to
 		start_pos += to.length();
 	}
 }
+
 std::string Script::ParseCommand(std::string cmd, std::vector<std::string> args) //First argument is command. Return format: Player names are orange, ints are blue, strings and such are purple, and default text is red or green depending on failed state.
 {
 	for (int i = 0; i < args.size(); i++) //Cause I get lazy a lot.
-	{
 		if (strcmp(args[i].c_str(), "@me") == 0)
 			args[i] = PLAYER::GET_PLAYER_NAME(PLAYER::PLAYER_ID());
-	}
+
 	if (strcmp(cmd.c_str(), "wanted_level") == 0)
 	{
 		if (args.size() < 3)
@@ -340,15 +339,10 @@ std::string Script::ParseCommand(std::string cmd, std::vector<std::string> args)
 	return "Unknown command.";
 }
 
-Player Script::GetPlayerByName(std::string pname)
+Player Script::GetPlayerByName(std::string pname) //Get's a player by name. Returns -1 on failure.
 {
 	for (int i = 0; i < 30; i++)
-	{
-		Player ply = i;
-		if (strcmp(PLAYER::GET_PLAYER_NAME(ply), pname.c_str()) == 0)
-		{
-			return ply;
-		}
-	}
+		if (strcmp(PLAYER::GET_PLAYER_NAME(i), pname.c_str()) == 0)
+			return i;
 	return -1;
 }
