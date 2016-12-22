@@ -223,7 +223,6 @@ std::string Script::ParseCommand(std::string cmd, std::vector<std::string> args)
 		sprintf_s(msg, sizeof(msg), "~o~%s ~g~is %s.", PLAYER::GET_PLAYER_NAME(ply), (PLAYER::GET_PLAYER_INVINCIBLE(ply) ? "now invincible" : "no longer invincible"));
 		return std::string(msg);
 	}
-
 	if (strcmp(cmd.c_str(), "teleport") == 0)
 	{
 		if (args.size() < 2)
@@ -244,7 +243,7 @@ std::string Script::ParseCommand(std::string cmd, std::vector<std::string> args)
 	if (strcmp(cmd.c_str(), "wait_time") == 0)
 	{
 		if (args.size() < 2)
-			return "~r~Usage: teleport [time ms]";
+			return "~r~Usage: wait_time [time ms]";
 		int wait = atoi(args[1].c_str());
 		waitTime = wait;
 		char msg[128];
@@ -265,8 +264,8 @@ std::string Script::ParseCommand(std::string cmd, std::vector<std::string> args)
 		Hash h = $(args[1]);
 		if (h == NULL)
 			return "~r~Invalid model.";
-		Vector3 loc = ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), FALSE);
-		Vehicle veh = VEHICLE::CREATE_VEHICLE(h, loc.x, loc.y, loc.z, 0.0f, TRUE, TRUE);
+		Vector3 loc = ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), TRUE);
+		Vehicle veh = VEHICLE::CREATE_VEHICLE(h, loc.x, loc.y, loc.z, ENTITY::GET_ENTITY_HEADING(PLAYER::PLAYER_PED_ID()), TRUE, TRUE);
 		PED::SET_PED_INTO_VEHICLE(PLAYER::PLAYER_PED_ID(), veh, -1);
 		char msg[128];
 		sprintf_s(msg, sizeof(msg), "~g~Created Vehicle ~p~%s.", args[1].c_str());
@@ -281,8 +280,8 @@ std::string Script::ParseCommand(std::string cmd, std::vector<std::string> args)
 		int cop = atoi(args[2].c_str());
 		if (h == NULL)
 			return "~r~Invalid model.";
-		Vector3 loc = ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), FALSE);
-		Ped p = PED::CREATE_PED(4, h, loc.x, loc.y, loc.z, 0.0f, TRUE, TRUE);
+		Vector3 loc = ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), TRUE);
+		Ped p = PED::CREATE_PED(4, h, loc.x, loc.y, loc.z, ENTITY::GET_ENTITY_HEADING(PLAYER::PLAYER_PED_ID()), TRUE, TRUE);
 		if (cop == 1)
 			PED::SET_PED_AS_COP(p, TRUE); //TODO: Check if this actually works by passing it directly in. I remember reading something saying it does weird things if false.
 		char msg[128];
@@ -334,6 +333,48 @@ std::string Script::ParseCommand(std::string cmd, std::vector<std::string> args)
 		speed = atof(args[1].c_str());
 		char msg[128];
 		sprintf_s(msg, sizeof(msg), "~g~Vehicle is now ~b~%f.", speed);
+		return std::string(msg);
+	}
+
+	if (strcmp(cmd.c_str(), "vehicle_torque") == 0)
+	{
+		if (args.size() < 2)
+			return "~r~Usage: vehicle_torque [player name] [torque]";
+		Player ply = GetPlayerByName(args[1]);
+		if (ply == -1)
+			return "~r~Invalid player.";
+		if (!PED::IS_PED_IN_ANY_VEHICLE(PLAYER::GET_PLAYER_PED(ply), TRUE))
+		{
+			char msg[128];
+			sprintf_s(msg, sizeof(msg), "~o~%s ~g~is not in a Vehicle.", PLAYER::GET_PLAYER_NAME(ply));
+			return std::string(msg);
+		}
+		float torque = atof(args[2].c_str());
+		Vehicle plyVeh = PED::GET_VEHICLE_PED_IS_IN(PLAYER::GET_PLAYER_PED(ply), FALSE);
+		VEHICLE::_SET_VEHICLE_ENGINE_TORQUE_MULTIPLIER(plyVeh, torque);
+		char msg[128];
+		sprintf_s(msg, sizeof(msg), "~o~%s's ~g~Vehicle torque is now %f.", PLAYER::GET_PLAYER_NAME(ply), torque);
+		return std::string(msg);
+	}
+
+	if (strcmp(cmd.c_str(), "vehicle_power") == 0)
+	{
+		if (args.size() < 2)
+			return "~r~Usage: vehicle_power [player name] [power]";
+		Player ply = GetPlayerByName(args[1]);
+		if (ply == -1)
+			return "~r~Invalid player.";
+		if (!PED::IS_PED_IN_ANY_VEHICLE(PLAYER::GET_PLAYER_PED(ply), TRUE))
+		{
+			char msg[128];
+			sprintf_s(msg, sizeof(msg), "~o~%s ~g~is not in a Vehicle.", PLAYER::GET_PLAYER_NAME(ply));
+			return std::string(msg);
+		}
+		float power = atof(args[2].c_str());
+		Vehicle plyVeh = PED::GET_VEHICLE_PED_IS_IN(PLAYER::GET_PLAYER_PED(ply), FALSE);
+		VEHICLE::_SET_VEHICLE_ENGINE_POWER_MULTIPLIER(plyVeh, power);
+		char msg[128];
+		sprintf_s(msg, sizeof(msg), "~o~%s's ~g~Vehicle power is now %f.", PLAYER::GET_PLAYER_NAME(ply), power);
 		return std::string(msg);
 	}
 	return "Unknown command.";
