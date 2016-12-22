@@ -113,7 +113,7 @@ void Script::onTick()
 		if (cmd.empty())
 			return;
 		std::vector<std::string> splitCmd = split(cmd, " ");
-		notifyMap(ParseCommand(splitCmd[0], splitCmd), FALSE);
+		NotifyMap(ParseCommand(splitCmd[0], splitCmd), FALSE);
 	}
 
 	if(KeyJustUp(VK_KEY_L))
