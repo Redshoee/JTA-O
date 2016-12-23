@@ -212,7 +212,7 @@ std::string Script::ParseCommand(std::string cmd, std::vector<std::string> args)
 		Player ply = GetPlayerByName(args[1]);
 		if (ply == -1)
 			return "~r~Invalid player.";
-		PLAYER::SET_PLAYER_INVINCIBLE(ply, !PLAYER::GET_PLAYER_INVINCIBLE(ply));
+		GodMode(ply, PLAYER::GET_PLAYER_INVINCIBLE(ply));
 		char msg[128];
 		sprintf_s(msg, sizeof(msg), "~o~%s ~g~is %s.", PLAYER::GET_PLAYER_NAME(ply), (PLAYER::GET_PLAYER_INVINCIBLE(ply) ? "now invincible" : "no longer invincible"));
 		return std::string(msg);

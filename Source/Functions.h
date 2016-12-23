@@ -11,7 +11,7 @@ void LoadAnim(char * dict); //Load an animation by name.
 void PlayAnimation(Ped ped, bool loop, char * dict, char * anim); //Play Ped animation.
 void RequestControlOfEnt(Entity entity); //Request network control of an entity.
 void ApplyForceToEntity(Entity e, Vector3 vec); //Apply force in a given Vector.
-void GodMode(bool toggle); //Toggle godmode on an entity.
+void GodMode(Player ply, bool toggle); //Toggle godmode on an entity.
 void SetAllNearbyPedsToCalm(); //Sets all nearby Peds to calm; removing flee events. (see 'GetNearbyPeds')
 void UpdateNearbyPeds(Ped playerPed, int count); //Update nearby Peds. (see 'GetNearbyPeds')
 void TeleportToMarker(); //Teleport to Waypoint marker location.
