@@ -273,8 +273,9 @@ std::string Script::ParseCommand(std::string cmd, std::vector<std::string> args)
 		Hash h = $(args[1]);
 		int type = atoi(args[2].c_str());
 		Vector3 loc = ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), TRUE);
-		CreatePed(h, loc, type, FALSE);
-		if()
+		Ped p = CreatePed(h, loc, type, FALSE);
+		if (p == -1)
+			return "~r~Invalid model.";
 		char msg[128];
 		sprintf_s(msg, sizeof(msg), "~g~Created Ped ~p~%s.", args[1].c_str());
 		return std::string(msg);
@@ -285,13 +286,11 @@ std::string Script::ParseCommand(std::string cmd, std::vector<std::string> args)
 		UpdateNearbyPeds(PLAYER::PLAYER_PED_ID(), 2000);
 		int killed = 0;
 		for each(Ped p in GetNearbyPeds())
-		{
 			if (PED::GET_PED_TYPE(p) == 6) //Da Fuzz
 			{
 				ENTITY::SET_ENTITY_HEALTH(p, 0); //Read my newest book: "I'm dead; now what?"
 				killed++;
 			}
-		}
 		char msg[128];
 		sprintf_s(msg, sizeof(msg), "~b~%i ~g~cops killed.", killed);
 		return std::string(msg);
