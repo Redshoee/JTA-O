@@ -9,16 +9,28 @@ Ped ClonePed(Ped ped)
 	return 0;
 }
 
-Ped CreatePed(char* PedName, Vector3 SpawnCoordinates, int ped_type, bool network_handle)
+Ped CreatePed(char* PedName, Vector3 SpawnCoordinates, int PedType, BOOL NetworkHandle)
 {
 	Ped NewPed;
 	int PedHash = $(PedName);
 	if (!LoadModel(PedHash))
 		return -1;
 
-	NewPed = PED::CREATE_PED(ped_type, PedHash, SpawnCoordinates.x, SpawnCoordinates.y, SpawnCoordinates.z, 0, network_handle, 1);
+	NewPed = PED::CREATE_PED(PedType, PedHash, SpawnCoordinates.x, SpawnCoordinates.y, SpawnCoordinates.z, 0, NetworkHandle, 1);
 	STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(PedHash);
 	return NewPed;
+}
+
+Vehicle CreateVehicle(char* VehicleName, Vector3 SpawnCoordinates, BOOL NetworkHandle)
+{
+	Vehicle NewVehicle;
+	int VehicleHash = $(VehicleName);
+	if (!LoadModel(VehicleHash))
+		return -1;
+
+	NewVehicle = VEHICLE::CREATE_VEHICLE(VehicleHash, SpawnCoordinates.x, SpawnCoordinates.y, SpawnCoordinates.z, 0, NetworkHandle, 1);
+	STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(VehicleHash);
+	return NewVehicle;
 }
 
 bool LoadModel(Hash model)
@@ -220,7 +232,7 @@ float DistanceBetween(Vector3 A, Vector3 B) {
 	return GAMEPLAY::GET_DISTANCE_BETWEEN_COORDS(A.x, A.y, A.z, B.x, B.y, B.z, 1);
 }
 
-int rndInt(int start, int end) {
+int RndInt(int start, int end) {
 	return GAMEPLAY::GET_RANDOM_INT_IN_RANGE(start, end);
 }
 
@@ -258,7 +270,7 @@ void TeleportToMarker()
 
 	if (coords.x == 0 && coords.y == 0)
 	{
-		NotifyMap("No Waypoint has been set!", 0);
+		NotifyMap("No Waypoint has been set!", FALSE);
 		return;
 	}
 
@@ -324,7 +336,6 @@ void HelpText(std::string msg, int shape = -1)
 	UI::_DISPLAY_HELP_TEXT_FROM_STRING_LABEL(0, 0, 0, shape);
 }
 
-
 Player GetPlayerByName(std::string pname)
 {
 	for (int i = 0; i < 30; i++)
@@ -332,7 +343,6 @@ Player GetPlayerByName(std::string pname)
 			return i;
 	return -1;
 }
-
 
 void DropMoney(float x, float y, float z)
 {

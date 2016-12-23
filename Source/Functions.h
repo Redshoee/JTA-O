@@ -3,7 +3,9 @@
 std::set<Ped> GetNearbyPeds(); //Get nearby peds. (See 'UpdateNearbyPeds')
 
 Ped ClonePed(Ped ped); //Clone a Ped.
-Ped CreatePed(char* PedName, Vector3 SpawnCoordinates, int ped_type, bool network_handle); //Create a Ped.
+Ped CreatePed(char* PedName, Vector3 SpawnCoordinates, int ped_type, BOOL network_handle); //Create a Ped.
+
+Vehicle CreateVehicle(char* VehicleName, Vector3 SpawnCoordinates, BOOL network_handle); //Create a Vehicle.
 
 void LoadAnim(char * dict); //Load an animation by name.
 void PlayAnimation(Ped ped, bool loop, char * dict, char * anim); //Play Ped animation.
