@@ -3,7 +3,7 @@
 std::set<Ped> GetNearbyPeds(); //Get nearby peds. (See 'UpdateNearbyPeds')
 
 Ped ClonePed(Ped ped); //Clone a Ped.
-Ped CreatePed(Hash* PedHash, Vector3 SpawnCoordinates, int ped_type, BOOL network_handle); //Create a Ped.
+Ped CreatePed(Hash PedHash, Vector3 SpawnCoordinates, int ped_type, BOOL network_handle); //Create a Ped.
 
 Vehicle CreateVehicle(Hash VehicleHash, Vector3 SpawnCoordinates, BOOL network_handle); //Create a Vehicle.
 

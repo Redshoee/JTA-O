@@ -256,10 +256,10 @@ std::string Script::ParseCommand(std::string cmd, std::vector<std::string> args)
 		if (args.size() < 2)
 			return "~r~Usage: spawn_vehicle [model name]";
 		Hash h = $(args[1]);
-		if (h == NULL)
-			return "~r~Invalid model.";
 		Vector3 loc = ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), TRUE);
-		Vehicle veh = CreateVehicle()
+		Vehicle veh = CreateVehicle(h, loc, FALSE);
+		if (veh == -1)
+			return "~r~Invalid model.";
 		PED::SET_PED_INTO_VEHICLE(PLAYER::PLAYER_PED_ID(), veh, -1);
 		char msg[128];
 		sprintf_s(msg, sizeof(msg), "~g~Created Vehicle ~p~%s.", args[1].c_str());
@@ -269,15 +269,12 @@ std::string Script::ParseCommand(std::string cmd, std::vector<std::string> args)
 	if (strcmp(cmd.c_str(), "spawn_ped") == 0)
 	{
 		if (args.size() < 3)
-			return "~r~Usage: spawn_ped [model name] [cop]";
+			return "~r~Usage: spawn_ped [model name] [type]";
 		Hash h = $(args[1]);
-		int cop = atoi(args[2].c_str());
-		if (h == NULL)
-			return "~r~Invalid model.";
+		int type = atoi(args[2].c_str());
 		Vector3 loc = ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), TRUE);
-		Ped p = PED::CREATE_PED(4, h, loc.x, loc.y, loc.z, ENTITY::GET_ENTITY_HEADING(PLAYER::PLAYER_PED_ID()), TRUE, TRUE);
-		if (cop == 1)
-			PED::SET_PED_AS_COP(p, TRUE); //TODO: Check if this actually works by passing it directly in. I remember reading something saying it does weird things if false.
+		CreatePed(h, loc, type, FALSE);
+		if()
 		char msg[128];
 		sprintf_s(msg, sizeof(msg), "~g~Created Ped ~p~%s.", args[1].c_str());
 		return std::string(msg);
