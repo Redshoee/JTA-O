@@ -2,17 +2,10 @@
 
 std::set<Ped> lastSeenPeds;
 
-//=================
-// PED FUNCTIONS
-//=================
-
 Ped ClonePed(Ped ped)
 {
 	if (ENTITY::DOES_ENTITY_EXIST(ped) && !ENTITY::IS_ENTITY_DEAD(ped))
-	{
 		return PED::CLONE_PED(ped, ENTITY::GET_ENTITY_HEADING(ped), 1, 1);
-	}
-
 	return 0;
 }
 
@@ -20,23 +13,25 @@ Ped CreatePed(char* PedName, Vector3 SpawnCoordinates, int ped_type, bool networ
 {
 	Ped NewPed;
 	int PedHash = $(PedName);
-	if (STREAMING::IS_MODEL_IN_CDIMAGE(PedHash))
-	{
-		if (STREAMING::IS_MODEL_VALID(PedHash))
-		{
-			STREAMING::REQUEST_MODEL(PedHash);
-			while (!STREAMING::HAS_MODEL_LOADED(PedHash)) WAIT(0);
+	if (!LoadModel(PedHash))
+		return -1;
 
-			NewPed = PED::CREATE_PED(ped_type, PedHash, SpawnCoordinates.x, SpawnCoordinates.y, SpawnCoordinates.z, 0, network_handle, 1);
-			STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(PedHash);
-			return NewPed;
-		}
-	}
-
-	return -1;
+	NewPed = PED::CREATE_PED(ped_type, PedHash, SpawnCoordinates.x, SpawnCoordinates.y, SpawnCoordinates.z, 0, network_handle, 1);
+	STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(PedHash);
+	return NewPed;
 }
 
-//Animations
+bool LoadModel(Hash model)
+{
+	if (!STREAMING::IS_MODEL_IN_CDIMAGE(model))
+		return false;
+	if (!STREAMING::IS_MODEL_VALID(model))
+		return false;
+		STREAMING::REQUEST_MODEL(model);
+		while (!STREAMING::HAS_MODEL_LOADED(model)) WAIT(0);
+		return true;
+}
+
 void LoadAnim(char * dict)
 {
 	int tick = 0;
@@ -64,39 +59,26 @@ void PlayAnimation(Ped ped, bool loop, char * dict, char * anim)
 
 }
 
-//Skins
 bool ApplyChosenSkin(DWORD model)
 {
-	if (STREAMING::IS_MODEL_IN_CDIMAGE(model) && STREAMING::IS_MODEL_VALID(model))
-	{
-		STREAMING::REQUEST_MODEL(model);
-		while (!STREAMING::HAS_MODEL_LOADED(model))
-		{
-			WAIT(0);
-		}
+	if (!LoadModel(model))
+		return false;
+	Vehicle veh = NULL;
 
-		Vehicle veh = NULL;
-		if (PED::IS_PED_IN_ANY_VEHICLE(PLAYER::PLAYER_PED_ID(), 0))
-		{
-			veh = PED::GET_VEHICLE_PED_IS_USING(PLAYER::PLAYER_PED_ID());
-		}
+	if (PED::IS_PED_IN_ANY_VEHICLE(PLAYER::PLAYER_PED_ID(), FALSE))
+		veh = PED::GET_VEHICLE_PED_IS_USING(PLAYER::PLAYER_PED_ID());
 
-		PLAYER::SET_PLAYER_MODEL(PLAYER::PLAYER_ID(), model);
-		//PED::SET_PED_RANDOM_COMPONENT_VARIATION(PLAYER::PLAYER_PED_ID(), FALSE);
-		PED::SET_PED_DEFAULT_COMPONENT_VARIATION(PLAYER::PLAYER_PED_ID());
-		WAIT(0);
+	PLAYER::SET_PLAYER_MODEL(PLAYER::PLAYER_ID(), model);
+	//PED::SET_PED_RANDOM_COMPONENT_VARIATION(PLAYER::PLAYER_PED_ID(), FALSE);
+	PED::SET_PED_DEFAULT_COMPONENT_VARIATION(PLAYER::PLAYER_PED_ID());
+	WAIT(0);
 
-		if (veh != NULL)
-		{
-			PED::SET_PED_INTO_VEHICLE(PLAYER::PLAYER_PED_ID(), veh, -1);
-		}
+	if (veh != NULL)
+		PED::SET_PED_INTO_VEHICLE(PLAYER::PLAYER_PED_ID(), veh, -1);
 
-		WAIT(100);
-		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(model);
-
-		return true;
-	}
-	return false;
+	WAIT(100);
+	STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(model);
+	return true;
 }
 
 bool ApplyChosenSkin(std::string skinName)
@@ -105,7 +87,6 @@ bool ApplyChosenSkin(std::string skinName)
 	return ApplyChosenSkin(model);
 }
 
-//CONTROL
 void RequestControlOfid(Entity netid)
 {
 	int tick = 0;
@@ -133,32 +114,25 @@ void RequestControlOfEnt(Entity entity)
 	}
 }
 
-//FORCE
-void ApplyForceToEntity(Entity e, float x, float y, float z)
+void ApplyForceToEntity(Entity e, Vector3 vec)
 {
 	if (e != PLAYER::PLAYER_PED_ID() && NETWORK::NETWORK_HAS_CONTROL_OF_ENTITY(e) == FALSE)
-	{
 		RequestControlOfEnt(e);
-	}
 
-	ENTITY::APPLY_FORCE_TO_ENTITY(e, 1, x, y, z, 0, 0, 0, 0, 1, 1, 1, 0, 1);
+	ENTITY::APPLY_FORCE_TO_ENTITY(e, 1, vec.x, vec.y, vec.z, 0, 0, 0, 0, 1, 1, 1, 0, 1);
 
 }
 
-//GOD MODE
 void GodMode(bool toggle)
 {
-	static int armour_player = 0;
+	static int armor_player = 0;
 	Player player = PLAYER::PLAYER_ID();
 	Ped playerPed = PLAYER::PLAYER_PED_ID();
-	if (armour_player == 0)
-	{
-		armour_player = PED::GET_PED_ARMOUR(playerPed);
-	}
+	if (armor_player == 0)
+		armor_player = PED::GET_PED_ARMOUR(playerPed);
 
 	if (toggle)
 	{
-		//set_status_text("Activating godmode");
 		PLAYER::SET_PLAYER_INVINCIBLE(player, true);
 		ENTITY::SET_ENTITY_PROOFS(playerPed, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE);
 		PED::SET_PED_CAN_RAGDOLL(playerPed, FALSE);
@@ -167,20 +141,18 @@ void GodMode(bool toggle)
 	}
 	else
 	{
-		//set_status_text("Deactivating godmode");
 		PLAYER::SET_PLAYER_INVINCIBLE(player, false);
 		ENTITY::SET_ENTITY_PROOFS(playerPed, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE);
 		PED::SET_PED_CAN_RAGDOLL(playerPed, TRUE);
 		PED::SET_PED_CAN_RAGDOLL_FROM_PLAYER_IMPACT(playerPed, TRUE);
-		if (armour_player != 0)
+		if (armor_player != 0)
 		{
-			PED::SET_PED_ARMOUR(playerPed, armour_player);
-			armour_player = 0;
+			PED::SET_PED_ARMOUR(playerPed, armor_player);
+			armor_player = 0;
 		}
 	}
 }
 
-//NEARBY PEDS
 std::set<Ped> GetNearbyPeds()
 {
 	return lastSeenPeds;
@@ -200,36 +172,27 @@ void UpdateNearbyPeds(Ped playerPed, int count)
 		int offsettedID = i * 2 + 2;
 
 		if (!ENTITY::DOES_ENTITY_EXIST(peds[offsettedID]))
-		{
 			continue;
-		}
 
 		Ped xped = peds[offsettedID];
 
 		bool inSet = lastSeenPeds.find(xped) != lastSeenPeds.end();
 		if (!inSet)
-		{
 			lastSeenPeds.insert(xped);
-		}
 	}
 
 	std::set<Ped>::iterator it;
 	for (it = lastSeenPeds.begin(); it != lastSeenPeds.end();)
 	{
 		if (!ENTITY::DOES_ENTITY_EXIST(*it))
-		{
 			lastSeenPeds.erase(it++);
-		}
 		else
-		{
 			++it;
-		}
 	}
 
 	delete peds;
 }
 
-//CALM PEDS
 void SetAllNearbyPedsToCalm()
 {
 	for each (Ped xped in lastSeenPeds)
@@ -240,33 +203,27 @@ void SetAllNearbyPedsToCalm()
 	}
 }
 
-//Converts Radians to Degrees
 float DegToRad(float degs)
 {
 	return degs*3.141592653589793f / 180.f;
 }
 
-//little one-line function called '$' to convert $TRING into a hash-key:
 Hash $(std::string str) {
 	return GAMEPLAY::GET_HASH_KEY(&str[0u]);
 }
 
-// quick function to get - coords - of - entity:
 Vector3 CoordsOf(Entity entity) {
 	return ENTITY::GET_ENTITY_COORDS(entity, 1);
 }
 
-//quick function to get distance between 2 points: eg - if (distanceBetween(coordsOf(player), targetCoords) < 50)
 float DistanceBetween(Vector3 A, Vector3 B) {
 	return GAMEPLAY::GET_DISTANCE_BETWEEN_COORDS(A.x, A.y, A.z, B.x, B.y, B.z, 1);
 }
 
-//quick "get random int in range 0-x" function:
 int rndInt(int start, int end) {
 	return GAMEPLAY::GET_RANDOM_INT_IN_RANGE(start, end);
 }
 
-//TELEPORTATION
 void TeleportToCoords(Entity e, Vector3 coords)
 {
 	ENTITY::SET_ENTITY_COORDS_NO_OFFSET(e, coords.x, coords.y, coords.z, 0, 0, 1);
@@ -282,18 +239,15 @@ Vector3 GetBlipMarker()
 	// search for marker blip
 	int blipIterator = UI::_GET_BLIP_INFO_ID_ITERATOR();
 	for (Blip i = UI::GET_FIRST_BLIP_INFO_ID(blipIterator); UI::DOES_BLIP_EXIST(i) != 0; i = UI::GET_NEXT_BLIP_INFO_ID(blipIterator))
-	{
 		if (UI::GET_BLIP_INFO_ID_TYPE(i) == 4)
 		{
 			coords = UI::GET_BLIP_INFO_ID_COORD(i);
 			blipFound = true;
 			break;
 		}
-	}
+
 	if (blipFound)
-	{
 		return coords;
-	}
 
 	return zero;
 }
@@ -311,9 +265,7 @@ void TeleportToMarker()
 	// get entity to teleport
 	Entity e = PLAYER::PLAYER_PED_ID();
 	if (PED::IS_PED_IN_ANY_VEHICLE(e, 0))
-	{
 		e = PED::GET_VEHICLE_PED_IS_USING(e);
-	}
 
 	// load needed map region and check height levels for ground existence
 	bool groundFound = false;
@@ -340,64 +292,24 @@ void TeleportToMarker()
 	TeleportToCoords(e, coords);
 }
 
-void TeleportToObjective()
-{
-	Vector3 coords;
-	Entity e;
-	Ped playerPed = PLAYER::PLAYER_PED_ID();
-	if (PED::IS_PED_IN_ANY_VEHICLE(playerPed, FALSE))
-		e = PED::GET_VEHICLE_PED_IS_USING(playerPed);
-	else e = playerPed;
-
-	bool blipFound = false;
-
-	if (ENTITY::IS_ENTITY_A_VEHICLE(e)) RequestControlOfEnt(e);
-	for (int i = 0; i <= 1000; i++)
-	{
-		Blip_t* blip = Hooking::GetBlipList()->m_Blips[i];
-		if (blip)
-		{
-			if ((blip->dwColor == ColorYellowMission && blip->iIcon == SpriteStandard) || (blip->dwColor == ColorYellow && blip->iIcon == SpriteStandard) ||
-				(blip->dwColor == ColorWhite && blip->iIcon == SpriteRaceFinish) || (blip->dwColor == ColorGreen && blip->iIcon == SpriteStandard) || (blip->iIcon == SpriteCrateDrop)) {
-				coords = blip->coords;
-				blipFound = true;
-				break; //During a race there's sometimes 2 yellow markers. We want the first one.
-			}
-		}
-	}
-
-	blipFound ? TeleportToCoords(e, coords) : NotifyMap("Objective not found!", 0);
-	
-}
-
-//In Game KEYBOARD
 std::string ShowKeyboard(char* title_id, char* prepopulated_text)
 {
 	DWORD time = GetTickCount() + 400;
 	while (GetTickCount() < time)
-	{
 		WAIT(0);
-	}
 
 	GAMEPLAY::DISPLAY_ONSCREEN_KEYBOARD(true, (title_id == NULL ? "HUD_TITLE" : title_id), "", (prepopulated_text == NULL ? "" : prepopulated_text), "", "", "", 64);
 
 	while (GAMEPLAY::UPDATE_ONSCREEN_KEYBOARD() == 0)
-	{
 		WAIT(0);
-	}
 
 	std::stringstream ss;
 	if (!GAMEPLAY::GET_ONSCREEN_KEYBOARD_RESULT())
-	{
 		return std::string("");
-	}
 	else
-	{
 		return std::string(GAMEPLAY::GET_ONSCREEN_KEYBOARD_RESULT());
-	}
 }
 
-//NOTIFICATIONS
 void NotifyMap(std::string msg, BOOL blink) {
 	UI::SET_TEXT_OUTLINE();
 	UI::_SET_NOTIFICATION_TEXT_ENTRY("STRING");
@@ -405,7 +317,6 @@ void NotifyMap(std::string msg, BOOL blink) {
 	UI::_DRAW_NOTIFICATION(blink, FALSE);
 }
 
-//HELP TEXT
 void HelpText(std::string msg, int shape = -1)
 {
 	UI::_SET_TEXT_COMPONENT_FORMAT("STRING");
