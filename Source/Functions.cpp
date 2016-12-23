@@ -323,3 +323,19 @@ void HelpText(std::string msg, int shape = -1)
 	UI::ADD_TEXT_COMPONENT_SUBSTRING_PLAYER_NAME(&msg[0u]);
 	UI::_DISPLAY_HELP_TEXT_FROM_STRING_LABEL(0, 0, 0, shape);
 }
+
+
+Player GetPlayerByName(std::string pname)
+{
+	for (int i = 0; i < 30; i++)
+		if (strcmp(PLAYER::GET_PLAYER_NAME(i), pname.c_str()) == 0)
+			return i;
+	return -1;
+}
+
+
+void DropMoney(float x, float y, float z)
+{
+	//VERY UNSTABLE -- USE WITH CAUTION, DON'T FUCK THE VALUES TOO BADLY.
+	OBJECT::CREATE_MONEY_PICKUPS(x, y, z, 2000, 1, 0);
+}

@@ -110,13 +110,13 @@ bool Hooking::HookNatives()
 
 void __stdcall ScriptFunction(LPVOID lpParameter)
 {
-	if (Script::isInit())
+	if (Script::IsInit())
 	{
 		try
 		{
 			while (1)
 			{
-				Script::onTick();
+				Script::OnTick();
 				SwitchToFiber(mainFiber);
 			}
 		}

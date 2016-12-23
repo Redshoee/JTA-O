@@ -78,7 +78,7 @@ uint weapons[128] = {
 	0xFBAB5776
 };
 
-std::vector<std::string> split(std::string str, std::string sep) {
+std::vector<std::string> Split(std::string str, std::string sep) {
 	char* cstr = const_cast<char*>(str.c_str());
 	char* current;
 	std::vector<std::string> arr;
@@ -90,18 +90,12 @@ std::vector<std::string> split(std::string str, std::string sep) {
 	return arr;
 }
 
-bool Script::isInit()
+bool Script::IsInit()
 {
 	return true;
 }
 
-void Script::DropMoney(float x, float y, float z)
-{
-	//VERY UNSTABLE -- USE WITH CAUTION, DON'T FUCK THE VALUES TOO BADLY.
-	OBJECT::CREATE_MONEY_PICKUPS(x, y, z, 2000, 1, 0);
-}
-
-void Script::onTick()
+void Script::OnTick()
 {
 	Player ply = PLAYER::PLAYER_ID();
 	Ped plyPed = PLAYER::PLAYER_PED_ID();
@@ -112,7 +106,7 @@ void Script::onTick()
 		std::string cmd = ShowKeyboard("FMMC_KEY_TIP8", "");
 		if (cmd.empty())
 			return;
-		std::vector<std::string> splitCmd = split(cmd, " ");
+		std::vector<std::string> splitCmd = Split(cmd, " ");
 		NotifyMap(ParseCommand(splitCmd[0], splitCmd), FALSE);
 	}
 
@@ -130,7 +124,7 @@ void Script::onTick()
 	}
 }
 
-void replaceAll(std::string& str, const std::string& from, const std::string& to)
+void ReplaceAll(std::string& str, const std::string& from, const std::string& to)
 {
 	if (from.empty())
 		return;
@@ -378,12 +372,4 @@ std::string Script::ParseCommand(std::string cmd, std::vector<std::string> args)
 		return std::string(msg);
 	}
 	return "Unknown command.";
-}
-
-Player Script::GetPlayerByName(std::string pname) //Get's a player by name. Returns -1 on failure.
-{
-	for (int i = 0; i < 30; i++)
-		if (strcmp(PLAYER::GET_PLAYER_NAME(i), pname.c_str()) == 0)
-			return i;
-	return -1;
 }
