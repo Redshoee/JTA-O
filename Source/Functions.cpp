@@ -9,10 +9,9 @@ Ped ClonePed(Ped ped)
 	return 0;
 }
 
-Ped CreatePed(char* PedName, Vector3 SpawnCoordinates, int PedType, BOOL NetworkHandle)
+Ped CreatePed(Hash PedHash, Vector3 SpawnCoordinates, int PedType, BOOL NetworkHandle)
 {
 	Ped NewPed;
-	int PedHash = $(PedName);
 	if (!LoadModel(PedHash))
 		return -1;
 
@@ -21,10 +20,9 @@ Ped CreatePed(char* PedName, Vector3 SpawnCoordinates, int PedType, BOOL Network
 	return NewPed;
 }
 
-Vehicle CreateVehicle(char* VehicleName, Vector3 SpawnCoordinates, BOOL NetworkHandle)
+Vehicle CreateVehicle(Hash VehicleHash, Vector3 SpawnCoordinates, BOOL NetworkHandle)
 {
 	Vehicle NewVehicle;
-	int VehicleHash = $(VehicleName);
 	if (!LoadModel(VehicleHash))
 		return -1;
 
@@ -135,25 +133,24 @@ void ApplyForceToEntity(Entity e, Vector3 vec)
 
 }
 
-void GodMode(bool toggle)
+void GodMode(Player ply, bool toggle)
 {
 	static int armor_player = 0;
-	Player player = PLAYER::PLAYER_ID();
-	Ped playerPed = PLAYER::PLAYER_PED_ID();
+	Ped playerPed = PLAYER::GET_PLAYER_PED(ply);
 	if (armor_player == 0)
 		armor_player = PED::GET_PED_ARMOUR(playerPed);
 
 	if (toggle)
 	{
-		PLAYER::SET_PLAYER_INVINCIBLE(player, true);
+		PLAYER::SET_PLAYER_INVINCIBLE(ply, true);
 		ENTITY::SET_ENTITY_PROOFS(playerPed, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE);
 		PED::SET_PED_CAN_RAGDOLL(playerPed, FALSE);
 		PED::SET_PED_CAN_RAGDOLL_FROM_PLAYER_IMPACT(playerPed, FALSE);
-		PED::ADD_ARMOUR_TO_PED(playerPed, PLAYER::GET_PLAYER_MAX_ARMOUR(player) - PED::GET_PED_ARMOUR(playerPed));
+		PED::ADD_ARMOUR_TO_PED(playerPed, PLAYER::GET_PLAYER_MAX_ARMOUR(ply) - PED::GET_PED_ARMOUR(playerPed));
 	}
 	else
 	{
-		PLAYER::SET_PLAYER_INVINCIBLE(player, false);
+		PLAYER::SET_PLAYER_INVINCIBLE(ply, false);
 		ENTITY::SET_ENTITY_PROOFS(playerPed, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE);
 		PED::SET_PED_CAN_RAGDOLL(playerPed, TRUE);
 		PED::SET_PED_CAN_RAGDOLL_FROM_PLAYER_IMPACT(playerPed, TRUE);

@@ -212,7 +212,7 @@ std::string Script::ParseCommand(std::string cmd, std::vector<std::string> args)
 		Player ply = GetPlayerByName(args[1]);
 		if (ply == -1)
 			return "~r~Invalid player.";
-		GodMode(ply, PLAYER::GET_PLAYER_INVINCIBLE(ply));
+		GodMode(ply, !PLAYER::GET_PLAYER_INVINCIBLE(ply));
 		char msg[128];
 		sprintf_s(msg, sizeof(msg), "~o~%s ~g~is %s.", PLAYER::GET_PLAYER_NAME(ply), (PLAYER::GET_PLAYER_INVINCIBLE(ply) ? "now invincible" : "no longer invincible"));
 		return std::string(msg);
@@ -227,8 +227,8 @@ std::string Script::ParseCommand(std::string cmd, std::vector<std::string> args)
 		Entity e = PLAYER::PLAYER_PED_ID();
 		if (PED::IS_PED_IN_ANY_VEHICLE(e, TRUE))
 			e = PED::GET_VEHICLE_PED_IS_IN(e, FALSE);
-		Vector3 loc = ENTITY::GET_ENTITY_COORDS(PLAYER::GET_PLAYER_PED(ply), FALSE);
-		ENTITY::SET_ENTITY_COORDS(e, loc.x, loc.y, loc.z, TRUE, TRUE, TRUE, FALSE);
+		Vector3 loc = CoordsOf(PLAYER::GET_PLAYER_PED(ply));
+		TeleportToCoords(e, loc);
 		char msg[128];
 		sprintf_s(msg, sizeof(msg), "~g~You were teleported to ~o~%s.", PLAYER::GET_PLAYER_NAME(ply));
 		return std::string(msg);
@@ -259,7 +259,7 @@ std::string Script::ParseCommand(std::string cmd, std::vector<std::string> args)
 		if (h == NULL)
 			return "~r~Invalid model.";
 		Vector3 loc = ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), TRUE);
-		Vehicle veh = VEHICLE::CREATE_VEHICLE(h, loc.x, loc.y, loc.z, ENTITY::GET_ENTITY_HEADING(PLAYER::PLAYER_PED_ID()), TRUE, TRUE);
+		Vehicle veh = CreateVehicle()
 		PED::SET_PED_INTO_VEHICLE(PLAYER::PLAYER_PED_ID(), veh, -1);
 		char msg[128];
 		sprintf_s(msg, sizeof(msg), "~g~Created Vehicle ~p~%s.", args[1].c_str());
