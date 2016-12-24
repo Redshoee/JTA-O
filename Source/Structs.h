@@ -273,3 +273,13 @@ float fPetrolTankVolume; //0x0100
 float fOilVolume; //0x0104
 
 }; //Size=0x0108
+
+struct Color3
+{
+	unsigned short r, g, b;
+};
+
+struct Color4
+{
+	unsigned short r, g, b, a;
+};
