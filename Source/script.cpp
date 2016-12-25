@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "script.h"
+#include "entity.h"
+#include "ped.h"
+#include "vehicle.h"
 
 Player dropPlayer = -1;
 float speed = 50.0f;
@@ -98,8 +101,8 @@ bool Script::IsInit()
 void Script::OnTick()
 {
 	Player ply = PLAYER::PLAYER_ID();
-	Ped plyPed = PLAYER::PLAYER_PED_ID();
-	Vehicle plyVeh = PED::GET_VEHICLE_PED_IS_IN(plyPed, FALSE);
+	CPed plyPed = CPed(PLAYER::PLAYER_PED_ID());
+	CVehicle plyVeh = plyPed.GetCurrentVehicle();
 
 	if (KeyJustUp(VK_F7))
 	{
@@ -110,11 +113,9 @@ void Script::OnTick()
 		NotifyMap(ParseCommand(splitCmd[0], splitCmd), FALSE);
 	}
 
-	if(KeyJustUp(VK_KEY_L))
-	{ 
-		if (PED::IS_PED_IN_ANY_VEHICLE(plyPed, TRUE))
-			VEHICLE::SET_VEHICLE_FORWARD_SPEED(PED::GET_VEHICLE_PED_IS_IN(plyPed, FALSE), speed);
-	}
+	if (KeyJustUp(VK_KEY_L))
+		if (plyPed.IsInAnyVehicle(true))
+			plyVeh.SetForwardSpeed(speed);
 
 	if (dropPlayer != -1)
 	{
