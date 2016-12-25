@@ -26,6 +26,7 @@ typedef int TaskSequence;
 typedef int ColourIndex;
 typedef int Sphere;
 typedef int ScrHandle;
+typedef bool (*CmdPtr)(std::vector<std::string>); //Returns whether the command was successfull.
 
 #pragma pack(push, 1)
 typedef struct

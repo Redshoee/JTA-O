@@ -89,6 +89,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="commands.h" />
     <ClInclude Include="CrossMapping.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="enums.h" />
@@ -112,6 +113,7 @@
     <ClInclude Include="vehicle.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="commands.cpp" />
     <ClCompile Include="CrossMapping.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</CompileAsManaged>

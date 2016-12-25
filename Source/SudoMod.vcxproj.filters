@@ -36,13 +36,7 @@
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="enums.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="natives.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="types.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="nativeCaller.h">
@@ -85,6 +79,15 @@
       <Filter>JTA\Headers</Filter>
     </ClInclude>
     <ClInclude Include="player.h">
+      <Filter>JTA\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="enums.h">
+      <Filter>JTA\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="types.h">
+      <Filter>JTA\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="commands.h">
       <Filter>JTA\Headers</Filter>
     </ClInclude>
   </ItemGroup>
@@ -135,6 +138,9 @@
       <Filter>JTA\Sources</Filter>
     </ClCompile>
     <ClCompile Include="player.cpp">
+      <Filter>JTA\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="commands.cpp">
       <Filter>JTA\Sources</Filter>
     </ClCompile>
   </ItemGroup>

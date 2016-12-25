@@ -46,3 +46,7 @@
 #include "Functions.h"
 #include "script.h"
 #include "utils.h"
+#include "entity.h"
+#include "ped.h"
+#include "vehicle.h"
+#include "player.h"

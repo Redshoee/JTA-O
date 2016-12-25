@@ -171,3 +171,23 @@ CPlayer CPlayer::GetPlayerByName(std::string pname, bool *success)
 	*success = false;
 	return NULL;
 }
+
+CPlayer CPlayer::GetLocalPlayer()
+{
+	return CPlayer(PLAYER::PLAYER_ID());
+}
+
+void CPlayer::CPlayer::NotifyMap(std::string msg, BOOL blink)
+{
+	UI::SET_TEXT_OUTLINE();
+	UI::_SET_NOTIFICATION_TEXT_ENTRY("STRING");
+	UI::ADD_TEXT_COMPONENT_SUBSTRING_PLAYER_NAME(&msg[0u]);
+	UI::_DRAW_NOTIFICATION(blink, FALSE);
+}
+
+void CPlayer::HelpText(std::string msg, int shape = -1)
+{
+	UI::_SET_TEXT_COMPONENT_FORMAT("STRING");
+	UI::ADD_TEXT_COMPONENT_SUBSTRING_PLAYER_NAME(&msg[0u]);
+	UI::_DISPLAY_HELP_TEXT_FROM_STRING_LABEL(0, 0, 0, shape);
+}

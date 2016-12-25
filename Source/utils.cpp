@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+std::map<std::string, CmdPtr> conCommands;
+
 BOOL BoolToBoolDef(bool b)
 {
 	return (b) ? TRUE : FALSE;
@@ -31,4 +33,53 @@ void ReplaceAll(std::string& str, const std::string& from, const std::string& to
 		str.replace(start_pos, from.length(), to);
 		start_pos += to.length();
 	}
+}
+
+void AddCommand(std::string cmd, CmdPtr func)
+{
+	conCommands[cmd] = func;
+	Log::Msg("Registed command %s.", cmd.c_str());
+}
+
+bool RunCommand(std::string cmd, std::vector<std::string> args)
+{
+	CmdPtr commandToExec = conCommands[cmd];
+	if (commandToExec == nullptr)
+	{
+		CPlayer::NotifyMap("Unknown command.", FALSE);
+		Log::Msg("WARNING: Attempted to run a command that didn't exist?");
+		return false;
+	}
+	bool ret = commandToExec(args);
+	Log::Msg("Running command %s. (returned %d)", cmd.c_str(), ret);
+	return ret;
+}
+
+std::string ShowKeyboard(char* title_id, char* prepopulated_text)
+{
+	DWORD time = GetTickCount() + 400;
+	while (GetTickCount() < time)
+		WAIT(0);
+
+	GAMEPLAY::DISPLAY_ONSCREEN_KEYBOARD(true, (title_id == NULL ? "HUD_TITLE" : title_id), "", (prepopulated_text == NULL ? "" : prepopulated_text), "", "", "", 64);
+
+	while (GAMEPLAY::UPDATE_ONSCREEN_KEYBOARD() == 0)
+		WAIT(0);
+
+	std::stringstream ss;
+	if (!GAMEPLAY::GET_ONSCREEN_KEYBOARD_RESULT())
+		return std::string("");
+	else
+		return std::string(GAMEPLAY::GET_ONSCREEN_KEYBOARD_RESULT());
+}
+
+bool LoadModel(Hash model)
+{
+	if (!STREAMING::IS_MODEL_IN_CDIMAGE(model))
+		return false;
+	if (!STREAMING::IS_MODEL_VALID(model))
+		return false;
+	STREAMING::REQUEST_MODEL(model);
+	while (!STREAMING::HAS_MODEL_LOADED(model)) WAIT(0);
+	return true;
 }
