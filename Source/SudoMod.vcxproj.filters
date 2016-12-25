@@ -84,6 +84,9 @@
     <ClInclude Include="utils.h">
       <Filter>JTA\Headers</Filter>
     </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>JTA\Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -129,6 +132,9 @@
       <Filter>JTA\Sources</Filter>
     </ClCompile>
     <ClCompile Include="utils.cpp">
+      <Filter>JTA\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
       <Filter>JTA\Sources</Filter>
     </ClCompile>
   </ItemGroup>
