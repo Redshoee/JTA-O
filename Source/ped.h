@@ -20,6 +20,7 @@ public:
 	bool IsInAnyVehicle(bool atGetIn);
 	bool IsJumpingFromVehicle();
 	bool IsDucking();
+	void CPed::GiveWeapon(eWeapon wep, int ammo, bool hide, bool equipNow);
 	void SetDucking(bool toggle);
 	bool IsProne();
 	bool IsInCombat(CPed target);
