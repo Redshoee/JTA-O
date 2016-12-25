@@ -15,7 +15,7 @@ public:
 	void ToggleSiren(bool toggle);
 	bool IsSirenOn();
 	CPed GetPedOnSeat(eVehicleSeat seat);
-	CPed GetDriver() { return GetPedOnSeat(VehicleSeatDriver);  };
+	CPed GetDriver();
 	void SetForwardSpeed(float speed);
 	void SetCanTiresBurst(bool toggle);
 	bool CanTiresBurst();
