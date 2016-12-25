@@ -60,6 +60,11 @@ CPed CVehicle::GetPedOnSeat(eVehicleSeat seat)
 	return CPed(VEHICLE::GET_PED_IN_VEHICLE_SEAT(GetHandle(), seat));
 }
 
+CPed CVehicle::GetDriver()
+{
+	return GetPedOnSeat(VehicleSeatDriver);
+}
+
 void CVehicle::SetForwardSpeed(float speed)
 {
 	VEHICLE::SET_VEHICLE_FORWARD_SPEED(GetHandle(), speed);
