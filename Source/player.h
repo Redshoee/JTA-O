@@ -15,6 +15,7 @@ public:
 	int GetTeam();
 	void SetTeam(int team);
 	char* GetName();
+	static CPlayer GetPlayerByName(std::string pname, bool *success); //Get's a player by name. Returns -1 on failure.
 	float GetWantedLevelRadius();
 	void SetWantedLevel(int level, bool now);
 	void SetDispatchCops(bool toggle);
