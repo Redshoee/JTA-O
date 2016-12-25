@@ -1,5 +1,10 @@
 #pragma once
 
+/*
+	!! WARNING: !!
+	THIS FILE WILL SOON BE REMOVED. IT IS NOT EXPECTED TO MAKE IT OUT OF V2.
+*/
+
 std::set<Ped> GetNearbyPeds(); //Get nearby peds. (See 'UpdateNearbyPeds')
 
 Ped ClonePed(Ped ped); //Clone a Ped.
