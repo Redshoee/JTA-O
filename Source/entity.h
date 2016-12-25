@@ -4,6 +4,7 @@
 class CEntity;
 class CVehicle;
 class CPed;
+class CPlayer;
 
 class CEntity
 {
