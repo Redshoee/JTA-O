@@ -39,5 +39,3 @@ Vector3 GetBlipMarker(); //Get Waypoint blip.
 int RndInt(int start, int end); //Generates a random number.
 
 std::string ShowKeyboard(char* title_id, char* prepopulated_text); //Show an onscreen keyboard; allowing user input. (see http://www.dev-c.com/nativedb/func/info/00dc833f2568dbf6 for title id's)
-
-Player GetPlayerByName(std::string pname); //Get's a player by name. Returns -1 on failure.
