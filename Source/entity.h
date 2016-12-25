@@ -1,6 +1,10 @@
 #pragma once
 #include "stdafx.h"
 
+class CEntity;
+class CVehicle;
+class CPed;
+
 class CEntity
 {
 private:
