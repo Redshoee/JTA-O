@@ -8,6 +8,7 @@ private:
 	
 public:
 	CEntity(uint handle);
+
 	void SetCoordinates(Vector3 coords, BOOL clearArea);
 	int GetHealth();
 	Hash GetModel();
@@ -17,7 +18,6 @@ public:
 	void SetHealth(int hp);
 	void SetMaxHealth(int maxhp);
 	void SetHeading(float heading);
-
 	Vector3 GetCoordinates(BOOL alive);
 	uint GetHandle();
 	bool IsDead();
