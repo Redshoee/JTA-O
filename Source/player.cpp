@@ -146,7 +146,7 @@ void CPlayer::RemoveHelmet()
 
 void CPlayer::SetRagdollControl(bool toggle)
 {
-	PLAYER::GIVE_PLAYER_RAGDOLL_CONTROL(GetPlayerHandle());
+	PLAYER::GIVE_PLAYER_RAGDOLL_CONTROL(GetPlayerHandle(), BoolToBoolDef(toggle));
 }
 
 void CPlayer::SetTargetingMode(int mode)
