@@ -8,14 +8,14 @@ void CVehicle::Explode(bool audible, bool visible)
 
 Color3 CVehicle::GetPrimaryColor()
 {
-	int *r, *g, *b;
+	int *r = 0, *g = 0, *b = 0;
 	VEHICLE::GET_VEHICLE_CUSTOM_PRIMARY_COLOUR(GetHandle(), r, g, b);
 	return Color3(*r, *g, *b);
 }
 
 Color3 CVehicle::GetSecondaryColor()
 {
-	int *r, *g, *b;
+	int *r = 0, *g = 0, *b = 0;
 	VEHICLE::GET_VEHICLE_CUSTOM_SECONDARY_COLOUR(GetHandle(), r, g, b);
 	return Color3(*r, *g, *b);
 }
@@ -147,5 +147,5 @@ void CVehicle::StartHorn(int duration, Hash mode, bool forever)
 
 bool CVehicle::HasWeapons()
 {
-	return VEHICLE::DOES_VEHICLE_HAVE_WEAPONS(GetHandle());
+	return BoolDefToBool(VEHICLE::DOES_VEHICLE_HAVE_WEAPONS(GetHandle()));
 }
