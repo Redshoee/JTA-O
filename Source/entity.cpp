@@ -6,14 +6,14 @@ CEntity::CEntity(uint handle)
 	this->handle = handle;
 }
 
-Vector3 CEntity::GetCoordinates(BOOL alive)
+Vector3 CEntity::GetCoordinates(bool alive)
 {
-	return ENTITY::GET_ENTITY_COORDS(GetHandle(), alive);
+	return ENTITY::GET_ENTITY_COORDS(GetHandle(), BoolToBoolDef(alive));
 }
 
-void CEntity::SetCoordinates(Vector3 coords, BOOL clearArea)
+void CEntity::SetCoordinates(Vector3 coords, bool clearArea)
 {
-	ENTITY::SET_ENTITY_COORDS(GetHandle(), coords.x, coords.y, coords.z, TRUE, TRUE, TRUE, clearArea);
+	ENTITY::SET_ENTITY_COORDS(GetHandle(), coords.x, coords.y, coords.z, TRUE, TRUE, TRUE, BoolToBoolDef(clearArea));
 }
 
 void CEntity::SetHeading(float heading)
