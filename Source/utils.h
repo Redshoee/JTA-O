@@ -9,3 +9,6 @@ void AddCommand(std::string cmd, CmdPtr func);
 bool RunCommand(std::string cmd, std::vector<std::string> args);
 std::string ShowKeyboard(char* title_id, char* prepopulated_text);
 bool LoadModel(Hash model);
+void TeleportToMarker();
+Vector3 GetBlipMarker();
+void DropMoney(float x, float y, float z);

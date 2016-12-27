@@ -19,9 +19,6 @@ void ApplyForceToEntity(Entity e, Vector3 vec); //Apply force in a given Vector.
 void GodMode(Player ply, bool toggle); //Toggle godmode on an entity.
 void SetAllNearbyPedsToCalm(); //Sets all nearby Peds to calm; removing flee events. (see 'GetNearbyPeds')
 void UpdateNearbyPeds(Ped playerPed, int count); //Update nearby Peds. (see 'GetNearbyPeds')
-void TeleportToMarker(); //Teleport to Waypoint marker location.
-void TeleportToCoords(Entity e, Vector3 coords); //Teleport an entity to a given coord.
-void DropMoney(float x, float y, float z); //Drop a money picup at a location.
 
 bool LoadModel(Hash model); //Loads a Model Hash. Returns whether the model was valid.
 bool ApplyChosenSkin(std::string skinName); //Apply skin to Player. Returns 

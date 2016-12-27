@@ -14,8 +14,8 @@ public:
 	void SetModel(Hash model);
 	int GetTeam();
 	void SetTeam(int team);
-	static void CPlayer::NotifyMap(std::string msg, BOOL blink);
-	static void HelpText(std::string msg, int shape);
+	static void CPlayer::NotifyMap(std::string msg, bool blink = false);
+	static void HelpText(std::string msg, int shape = -1);
 	char* GetName();
 	static CPlayer GetPlayerByName(std::string pname, bool *success); //Get's a player by name. Returns -1 on failure.
 	float GetWantedLevelRadius();

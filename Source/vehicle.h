@@ -7,6 +7,7 @@ class CVehicle : public CEntity
 public:
 	CVehicle(uint handle) : CEntity(handle) {};
 
+	static CVehicle CreateVehicle(Hash model, Vector3 loc, float heading = 0.0f);
 	void Explode(bool audible, bool visible);
 	Color3 GetPrimaryColor();
 	Color3 GetSecondaryColor();
