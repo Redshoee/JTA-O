@@ -28,10 +28,13 @@ public:
 	bool IsJacking();
 	bool IsBeingJacked();
 	bool IsBeingStunned();
+	bool CanFlyThroughWindscreen();
+	void SetFlyThroughWindscreen(bool toggle);
 	int GetType();
 	void SetIsCop(bool toggle);
 	bool IsRagdoll();
 	bool CanRagdoll();
 	void SetCanRagdoll(bool toggle);
 	void Resurrect();
+	int GetRelationshipBetweenPed(CPed ped);
 };

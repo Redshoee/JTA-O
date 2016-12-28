@@ -9,7 +9,7 @@ bool WantedLevelCommand(std::vector<std::string> args)
 		return false;
 	}
 	CPlayer::GetLocalPlayer().SetWantedLevel(atoi(args[1].c_str()), true);
-	CPlayer::NotifyMap("~r~Your wanted level has been updated.");
+	CPlayer::NotifyMap("~g~Your wanted level has been updated.");
 	return true;
 }
 
@@ -39,9 +39,8 @@ bool TeleportCommand(std::vector<std::string> args)
 		CPlayer::NotifyMap("~r~Usage: teleport [player name]");
 		return false;
 	}
-	bool *success;
-	CPlayer target = CPlayer::GetPlayerByName(args[1], success);
-	if (!success)
+	CPlayer target = CPlayer::GetPlayerByName(args[1]);
+	if (!target.IsValid())
 	{
 		CPlayer::NotifyMap("~r~Invalid player.");
 		return false;
@@ -95,6 +94,7 @@ bool FindVehicleCommand(std::vector<std::string> args)
 		return false;
 	}
 	CVehicle veh = CVehicle(closest);
+	veh.SetNeedsHotwire(false);
 	if(teleportToPly)
 		veh.SetCoordinates(CPlayer::GetLocalPlayer().GetCoordinates(true), false);
 	CPlayer::GetLocalPlayer().SetIntoVehicle(veh, VehicleSeatDriver);
@@ -112,9 +112,8 @@ bool DropMoneyCommand(std::vector<std::string> args)
 	}
 	if (args.size() >= 2)
 	{
-		bool *success;
-		CPlayer target = CPlayer::GetPlayerByName(args[1], success);
-		if (!*success)
+		CPlayer target = CPlayer::GetPlayerByName(args[1]);
+		if (!target.IsValid())
 		{
 			CPlayer::NotifyMap("~r~Invalid player.");
 			return false;
@@ -143,10 +142,65 @@ bool DropMoneyWaitTimeCommand(std::vector<std::string> args)
 	return true;
 }
 
+bool FixVehicleCommand(std::vector<std::string> args)
+{
+	CPlayer ply = CPlayer::GetLocalPlayer();
+	if (!ply.IsInAnyVehicle(true))
+	{
+		CPlayer::NotifyMap("~r~You aren't in a Vehicle.");
+		return false;
+	}
+	ply.GetCurrentVehicle().Fix();
+	CPlayer::NotifyMap("~g~Fixed your curent Vehicle.");
+	return true;
+}
+
+bool FlyThroughWindshieldCommand(std::vector<std::string> args)
+{
+	CPlayer::GetLocalPlayer().GetPed().SetFlyThroughWindscreen(!CPlayer::GetLocalPlayer().GetPed().CanFlyThroughWindscreen());
+	CPlayer::NotifyMap("~g~Toggled fly through windscreen ability.");
+	return true;
+}
+
 bool InvincibilityCommand(std::vector<std::string> args)
 {
 	CPlayer::GetLocalPlayer().SetInvincible(!CPlayer::GetLocalPlayer().IsInvincible());
 	CPlayer::NotifyMap("~g~Toggled invincibility.");
+	return true;
+}
+
+bool GiveAllWeaponsCommand(std::vector<std::string> args)
+{
+	for each(std::string wep in weapons)
+	{
+		CPlayer::GetLocalPlayer().GiveWeapon($(wep), 99999, false, false);
+	}
+	CPlayer::NotifyMap("~g~Gave you all weapons.");
+	return true;
+}
+
+bool KillNearbyEnemiesCommand(std::vector<std::string> args) //Need to find a way to get if an Ped is an enemy... we have a setter but no getter, and relations don't seem to work the way they should...
+{
+	int relationToKill = RelationshipNeutral;
+	if (args.size() >= 2)
+		relationToKill = atoi(args[1].c_str());
+
+	int killCount = 0;
+	UpdateNearbyPeds(CPlayer::GetLocalPlayer().GetPed().GetHandle(), 3000);
+	
+	for each(Ped p in GetNearbyPeds())
+	{
+		CPed cp = CPed(p);
+		int relation = CPlayer::GetLocalPlayer().GetRelationshipBetweenPed(cp);
+		if (relation > relationToKill && relation != RelationshipPedestrians)
+		{
+			cp.Kill();
+			killCount++;
+		}
+	}
+	char msg[128];
+	sprintf_s(msg, sizeof(msg), "~g~Killed ~b~%i ~g~enemies.", killCount);
+	CPlayer::NotifyMap(std::string(msg));
 	return true;
 }
 
@@ -158,6 +212,10 @@ void RegisterCommands()
 	AddCommand("wait_time", DropMoneyWaitTimeCommand);
 	AddCommand("find_vehicle", FindVehicleCommand);
 	AddCommand("spawn_vehicle", SpawnVehicleCommand);
+	AddCommand("kill_enemies", KillNearbyEnemiesCommand);
+	AddCommand("fix_vehicle", FixVehicleCommand);
+	AddCommand("give_weapons", GiveAllWeaponsCommand);
+	AddCommand("fly_windscreen", FlyThroughWindshieldCommand);
 	AddCommand("teleport", TeleportCommand);
 	AddCommand("teleport_waypoint", TeleportWaypointCommand);
 	AddCommand("speed", SetVehicleSpeedCommand);

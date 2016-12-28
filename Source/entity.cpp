@@ -21,6 +21,11 @@ void CEntity::SetHeading(float heading)
 	ENTITY::SET_ENTITY_HEADING(GetHandle(), heading);
 }
 
+bool CEntity::Exists()
+{
+	return BoolDefToBool(ENTITY::DOES_ENTITY_EXIST(GetHandle()));
+}
+
 int CEntity::GetHealth()
 {
 	return ENTITY::GET_ENTITY_HEALTH(GetHandle());

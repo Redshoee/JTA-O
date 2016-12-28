@@ -5,8 +5,6 @@
 	THIS FILE WILL SOON BE REMOVED. IT IS NOT EXPECTED TO MAKE IT OUT OF V2.
 */
 
-std::set<Ped> lastSeenPeds;
-
 Ped ClonePed(Ped ped)
 {
 	if (ENTITY::DOES_ENTITY_EXIST(ped) && !ENTITY::IS_ENTITY_DEAD(ped))

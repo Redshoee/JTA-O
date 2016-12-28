@@ -1,6 +1,8 @@
 #pragma once
 #include "stdafx.h"
 
+extern std::vector<std::string> weapons;
+
 bool BoolDefToBool(BOOL b);
 BOOL BoolToBoolDef(bool b);
 std::vector<std::string> Split(std::string str, std::string sep);
@@ -12,3 +14,5 @@ bool LoadModel(Hash model);
 void TeleportToMarker();
 Vector3 GetBlipMarker();
 void DropMoney(float x, float y, float z);
+std::set<Ped> GetNearbyPeds();
+void UpdateNearbyPeds(Ped playerPed, int count);

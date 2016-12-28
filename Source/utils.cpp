@@ -2,6 +2,53 @@
 
 std::map<std::string, CmdPtr> conCommands;
 
+std::set<Ped>lastSeenPeds;
+
+std::vector<std::string> weapons = {
+"WEAPON_UNARMED", //Add weapons after this
+
+"WEAPON_KNIFE",
+"WEAPON_NIGHTSTICK",
+"WEAPON_HAMMER",
+"WEAPON_BAT",
+"WEAPON_GOLFCLUB",
+"WEAPON_CROWBAR",
+"WEAPON_PISTOL",
+"WEAPON_COMBATPISTOL",
+"WEAPON_APPISTOL",
+"WEAPON_PISTOL50",
+"WEAPON_MICROSMG",
+"WEAPON_SMG",
+"WEAPON_ASSAULTSMG",
+"WEAPON_ASSAULTRIFLE",
+"WEAPON_CARBINERIFLE",
+"WEAPON_ADVANCEDRIFLE",
+"WEAPON_MG",
+"WEAPON_COMBATMG",
+"WEAPON_PUMPSHOTGUN",
+"WEAPON_SAWNOFFSHOTGUN",
+"WEAPON_ASSAULTSHOTGUN",
+"WEAPON_BULLPUPSHOTGUN",
+"WEAPON_STUNGUN",
+"WEAPON_SNIPERRIFLE",
+"WEAPON_HEAVYSNIPER",
+"WEAPON_REMOTESNIPER",
+"WEAPON_GRENADELAUNCHER",
+"WEAPON_RPG",
+"WEAPON_STINGER",
+"WEAPON_MINIGUN",
+"WEAPON_GRENADE",
+"WEAPON_STICKYBOMB",
+"WEAPON_SMOKEGRENADE",
+"WEAPON_BZGAS",
+"WEAPON_MOLOTOV",
+"WEAPON_FIREEXTINGUISHER",
+"WEAPON_PETROLCAN",
+"WEAPON_DIGISCANNER",
+"WEAPON_BALL",
+"WEAPON_FLARE" //Add weapons before this.
+};
+
 BOOL BoolToBoolDef(bool b)
 {
 	return (b) ? TRUE : FALSE;
@@ -148,5 +195,43 @@ Vector3 GetBlipMarker()
 
 void DropMoney(float x, float y, float z)
 {
-	OBJECT::CREATE_MONEY_PICKUPS(x, y, z, 1, 2000, 0);
+	OBJECT::CREATE_MONEY_PICKUPS(x, y, z, 2000, 1, 0);
+}
+
+std::set<Ped> GetNearbyPeds()
+{
+	return lastSeenPeds;
+}
+
+void UpdateNearbyPeds(Ped playerPed, int count)
+{
+	const int numElements = count;
+	const int arrSize = numElements * 2 + 2;
+
+	Ped *peds = new Ped[arrSize];
+	peds[0] = numElements;
+	int found = PED::GET_PED_NEARBY_PEDS(playerPed, peds, -1);
+
+	for (int i = 0; i < found; i++)
+	{
+		int offsettedID = i * 2 + 2;
+
+		if (!ENTITY::DOES_ENTITY_EXIST(peds[offsettedID]))
+			continue;
+
+		Ped xped = peds[offsettedID];
+
+		bool inSet = lastSeenPeds.find(xped) != lastSeenPeds.end();
+		if (!inSet)
+			lastSeenPeds.insert(xped);
+	}
+
+	std::set<Ped>::iterator it;
+	for (it = lastSeenPeds.begin(); it != lastSeenPeds.end();)
+		if (!ENTITY::DOES_ENTITY_EXIST(*it))
+			lastSeenPeds.erase(it++);
+		else
+			++it;
+
+	delete peds;
 }

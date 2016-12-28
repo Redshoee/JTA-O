@@ -15,6 +15,7 @@ public:
 	CEntity(uint handle);
 
 	void SetCoordinates(Vector3 coords, bool clearArea);
+	bool Exists();
 	int GetHealth();
 	Hash GetModel();
 	int GetMaxHealth();

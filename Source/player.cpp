@@ -159,17 +159,17 @@ bool CPlayer::CanPedHear(CPed ped)
 	return BoolDefToBool(PLAYER::CAN_PED_HEAR_PLAYER(GetPlayerHandle(), ped.GetHandle()));
 }
 
-CPlayer CPlayer::GetPlayerByName(std::string pname, bool *success)
+bool CPlayer::IsValid()
+{
+	return BoolDefToBool(ENTITY::DOES_ENTITY_EXIST(GetPed().GetHandle()));
+}
+
+CPlayer CPlayer::GetPlayerByName(std::string pname)
 {
 	for (int i = 0; i < 30; i++)
 		if (strcmp(PLAYER::GET_PLAYER_NAME(i), pname.c_str()) == 0)
-		{
-			*success = true;
 			return CPlayer(i);
-		}
-
-	*success = false;
-	return NULL;
+	return CPlayer(30);
 }
 
 CPlayer CPlayer::GetLocalPlayer()

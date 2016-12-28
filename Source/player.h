@@ -14,10 +14,10 @@ public:
 	void SetModel(Hash model);
 	int GetTeam();
 	void SetTeam(int team);
-	static void CPlayer::NotifyMap(std::string msg, bool blink = false);
+	static void NotifyMap(std::string msg, bool blink = false);
 	static void HelpText(std::string msg, int shape = -1);
 	char* GetName();
-	static CPlayer GetPlayerByName(std::string pname, bool *success); //Get's a player by name. Returns -1 on failure.
+	static CPlayer GetPlayerByName(std::string pname); //Get's a player by name. Returns -1 on failure.
 	float GetWantedLevelRadius();
 	void SetWantedLevel(int level, bool now);
 	void SetDispatchCops(bool toggle);
@@ -27,6 +27,7 @@ public:
 	int GetWantedLevel();
 	void SetPoliceIgnore(bool toggle);
 	void SetPoliceBlips(bool toggle);
+	bool IsValid();
 	void SetEveryoneIgnore(bool toggle);
 	void ResetWantedLevelDifficulty();
 	void SetWantedLevelDifficulty(float difficulty);

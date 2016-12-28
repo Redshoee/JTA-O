@@ -129,3 +129,18 @@ void CPed::SetIntoVehicle(CVehicle veh, int seat)
 {
 	PED::SET_PED_INTO_VEHICLE(GetHandle(), veh.GetHandle(), seat);
 }
+
+bool CPed::CanFlyThroughWindscreen()
+{
+	return BoolDefToBool(PED::GET_PED_CONFIG_FLAG(GetHandle(), 32, TRUE));
+}
+
+void CPed::SetFlyThroughWindscreen(bool toggle)
+{
+	PED::SET_PED_CONFIG_FLAG(GetHandle(), 32, BoolToBoolDef(toggle));
+}
+
+int CPed::GetRelationshipBetweenPed(CPed ped)
+{
+	return PED::GET_RELATIONSHIP_BETWEEN_PEDS(GetHandle(), ped.GetHandle());
+}
