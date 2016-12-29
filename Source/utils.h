@@ -16,3 +16,4 @@ Vector3 GetBlipMarker();
 void DropMoney(float x, float y, float z);
 std::set<Ped> GetNearbyPeds();
 void UpdateNearbyPeds(Ped playerPed, int count);
+Hash $(std::string name);

@@ -43,7 +43,6 @@
 #include "natives.h"
 #include "Hooking.h"
 #include "Structs.h"
-#include "Functions.h"
 #include "script.h"
 #include "utils.h"
 #include "entity.h"

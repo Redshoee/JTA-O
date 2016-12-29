@@ -63,9 +63,6 @@
     <ClInclude Include="entity.h">
       <Filter>JTA\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Functions.h">
-      <Filter>JTA\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="vehicle.h">
       <Filter>JTA\Headers</Filter>
     </ClInclude>
@@ -123,9 +120,6 @@
       <Filter>JTA\Sources</Filter>
     </ClCompile>
     <ClCompile Include="entity.cpp">
-      <Filter>JTA\Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Functions.cpp">
       <Filter>JTA\Sources</Filter>
     </ClCompile>
     <ClCompile Include="vehicle.cpp">

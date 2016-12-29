@@ -235,3 +235,8 @@ void UpdateNearbyPeds(Ped playerPed, int count)
 
 	delete peds;
 }
+
+Hash $(std::string name)
+{
+	return GAMEPLAY::GET_HASH_KEY(&name[0u]);
+}
