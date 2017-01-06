@@ -1,1 +1,1 @@
-**Mod base & every native hash update**: (https://bitbucket.org/infamousdevteam/sudomod)[SudoMod] By Infamous Dev Team
+**Mod base & every native hash update**: Sudomod by Infamous Dev Team (https://bitbucket.org/infamousdevteam/sudomod)
