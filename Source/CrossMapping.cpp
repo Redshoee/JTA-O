@@ -5238,7 +5238,14 @@ uint64_t __HASHMAPDATA[] = {
 	0x3c5fd37b5499582e, 0x11b1cd473c92a76d,
 	0xe2a99a9b524befff, 0xc388f8c52ede8188,
 	0xd47a2c1ba117471d, 0x3484a6a20d2332da,
-	0xc2f7fe5309181c7d, 0xf2a477e110f00779
+	0xc2f7fe5309181c7d, 0xf2a477e110f00779,
+	0x36D782F68B309BDA, 0x36D782F68B309BDA,
+	0x3D34E80EED4AE3BE, 0x3D34E80EED4AE3BE,
+	0x81E1552E35DC3839, 0x81E1552E35DC3839,
+	0x9078C0C5EF8C19E9, 0x9078C0C5EF8C19E9,
+	0xBC9CFF381338CB4F, 0xBC9CFF381338CB4F,
+	0xA916396DF4154EE3, 0xA916396DF4154EE3,
+	0x0BFFB028B3DD0A97, 0x0BFFB028B3DD0A97,
 };
 
 void CrossMapping::initNativeMap() {
@@ -5314,50 +5321,36 @@ uint64_t CrossMapping::MapNative(uint64_t inNative)
 
 void CrossMapping::dumpNativeMappingCache()
 {
-	// read the mapping table
 	FILE *file;
 	int file_exists;
+	char filename[0x400];
+	snprintf(filename, sizeof(filename), "SudoHook_native_cache.log");
+	/*first check if the file exists...*/
+	fopen_s(&file, filename, "r");
+	if (file == NULL) file_exists = 0;
+	else { file_exists = 1; fclose(file); }
 
-
-	size_t sz = 0;
-	char* appdata = nullptr;
-	if (_dupenv_s(&appdata, &sz, "APPDATA") == 0 && appdata != nullptr)
+	/*...then open it in the appropriate way*/
+	if (file_exists == 1)
 	{
-		//char * appdata = getenv("APPDATA");
-		//if (!appdata) 
-		//{
-		//	MessageBoxA(NULL, "Error saving native cache!", "[ERROR]", MB_OK);
-		//}
-		char filename[0x400];
-		snprintf(filename, sizeof(filename), "%s\\GTAV\\Authority\\natives_blob.txt", appdata);
-		/*first check if the file exists...*/
-		fopen_s(&file, filename, "r");
-		if (file == NULL) file_exists = 0;
-		else { file_exists = 1; fclose(file); }
-
-		/*...then open it in the appropriate way*/
-		if (file_exists == 1)
-		{
-			fopen_s(&file, filename, "r+b");
-		}
-		else
-		{
-			fopen_s(&file, filename, "w+b");
-		}
-
-		if (file != NULL)
-		{
-			char buffer[50];
-			for (nMap::const_iterator it = nativeCache.begin(); it != nativeCache.end(); ++it)
-			{
-				sprintf_s(buffer, "{ 0x%llx, 0x%llx },\n", it->first, it->second);
-				fputs(buffer, file);
-			}
-
-			fclose(file);
-		}
+		fopen_s(&file, filename, "r+b");
+	}
+	else
+	{
+		fopen_s(&file, filename, "w+b");
 	}
 
-	free(appdata);
+	if (file != NULL)
+	{
+		char buffer[50];
+		for (nMap::const_iterator it = nativeCache.begin(); it != nativeCache.end(); ++it)
+		{
+			sprintf_s(buffer, "{ 0x%llx, 0x%llx },\n", it->first, it->second);
+			fputs(buffer, file);
+		}
 
+		PlaySound(L"C:\\WINDOWS\\Media\\tada.wav", NULL, SND_ASYNC);
+
+		fclose(file);
+	}
 }
