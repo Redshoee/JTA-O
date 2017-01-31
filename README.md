@@ -1,3 +1,4 @@
+# **WARNING** This mod is no longer undetected, since Import/Export Online update in December of 2016. (Using DirectX library's to load module DLLs as a backdoor; both dinput8.dll and dsound.dll)
 # JTA-O
 JTA mod (my personal mod) for GTA, recreated for Online use.
 ## What can this mod do?
