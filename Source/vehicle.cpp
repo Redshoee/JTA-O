@@ -150,7 +150,7 @@ bool CVehicle::HasWeapons()
 	return BoolDefToBool(VEHICLE::DOES_VEHICLE_HAVE_WEAPONS(GetHandle()));
 }
 
-CVehicle CVehicle::CreateVehicle(Hash model, Vector3 loc, float heading)
+CVehicle CreateVehicle(Hash model, Vector3 pos, float heading)
 {
-	return CVehicle(VEHICLE::CREATE_VEHICLE(model, loc.x, loc.y, loc.z, heading, TRUE, TRUE));
+	return CVehicle(VEHICLE::CREATE_VEHICLE(model, pos.x, pos.y, pos.z, heading, TRUE, TRUE));
 }

@@ -7,7 +7,6 @@ class CVehicle : public CEntity
 public:
 	CVehicle(uint handle) : CEntity(handle) {};
 
-	static CVehicle CreateVehicle(Hash model, Vector3 loc, float heading = 0.0f);
 	void Explode(bool audible, bool visible);
 	Color3 GetPrimaryColor();
 	Color3 GetSecondaryColor();
@@ -24,8 +23,8 @@ public:
 	void RollupWindow(eVehicleWindow window);
 	void SetAlarm(bool toggle);
 	bool IsAlarmActive();
-	void RaiseRoof(bool instant);
-	void LowerRoof(bool instant);
+	void RaiseRoof(bool instant = false);
+	void LowerRoof(bool instant = false);
 	eVehicleRoofState GetRoofState();
 	void SetDriveable(bool toggle);
 	float GetEngineHealth();
@@ -38,3 +37,4 @@ public:
 	void Fix();
 	bool HasWeapons();
 };
+CVehicle CreateVehicle(Hash model, Vector3 pos, float heading = 0.0f);

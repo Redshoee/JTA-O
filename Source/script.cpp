@@ -36,7 +36,7 @@ void Script::OnTick()
 
 	if (KeyJustUp(VK_KEY_L))
 	{
-		if (CPlayer::GetLocalPlayer().IsInAnyVehicle(true))
-			CPlayer::GetLocalPlayer().GetCurrentVehicle().SetForwardSpeed(boostSpeed);
+		if (GetLocalPlayer().IsInAnyVehicle(true))
+			GetLocalPlayer().GetCurrentVehicle().SetForwardSpeed(boostSpeed);
 	}
 }

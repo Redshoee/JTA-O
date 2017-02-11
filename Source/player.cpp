@@ -124,11 +124,6 @@ bool CPlayer::GiveAchievement(int achieve)
 	return BoolDefToBool(PLAYER::GIVE_ACHIEVEMENT_TO_PLAYER(achieve));
 }
 
-bool CPlayer::IsOnline()
-{
-	return BoolDefToBool(PLAYER::IS_PLAYER_ONLINE());
-}
-
 void CPlayer::SetInvincible(bool toggle)
 {
 	PLAYER::SET_PLAYER_INVINCIBLE(GetPlayerHandle(), BoolToBoolDef(toggle));
@@ -149,7 +144,7 @@ void CPlayer::SetRagdollControl(bool toggle)
 	PLAYER::GIVE_PLAYER_RAGDOLL_CONTROL(GetPlayerHandle(), BoolToBoolDef(toggle));
 }
 
-void CPlayer::SetTargetingMode(int mode)
+void SetTargetingMode(int mode)
 {
 	PLAYER::SET_PLAYER_TARGETING_MODE(mode);
 }
@@ -159,25 +154,47 @@ bool CPlayer::CanPedHear(CPed ped)
 	return BoolDefToBool(PLAYER::CAN_PED_HEAR_PLAYER(GetPlayerHandle(), ped.GetHandle()));
 }
 
+Color3 CPlayer::GetPlayerRGB()
+{
+	int *r, *g, *b;
+	PLAYER::GET_PLAYER_RGB_COLOUR(GetPlayerHandle(), r, g, b);
+	return Color3(*r, *g, *b);
+}
+
 bool CPlayer::IsValid()
 {
 	return BoolDefToBool(ENTITY::DOES_ENTITY_EXIST(GetPed().GetHandle()));
 }
 
-CPlayer CPlayer::GetPlayerByName(std::string pname)
+CPlayer GetPlayerByName(std::string pname) //Returns a Player by name. Returns -1 if no player found.
 {
 	for (int i = 0; i < 30; i++)
 		if (strcmp(PLAYER::GET_PLAYER_NAME(i), pname.c_str()) == 0)
 			return CPlayer(i);
-	return CPlayer(30);
+	return CPlayer(-1);
 }
 
-CPlayer CPlayer::GetLocalPlayer()
+CPlayer GetLocalPlayer()
 {
 	return CPlayer(PLAYER::PLAYER_ID());
 }
 
-void CPlayer::CPlayer::NotifyMap(std::string msg, bool blink)
+int CPlayer::GetPlayerTeam()
+{
+	return PLAYER::GET_PLAYER_TEAM(GetPlayerHandle());
+}
+
+void CPlayer::SetPlayerTeam(int team)
+{
+	PLAYER::SET_PLAYER_TEAM(GetPlayerHandle(), team);
+}
+
+bool CPlayer::IsTargetingAnything()
+{
+	return BoolDefToBool(PLAYER::IS_PLAYER_TARGETTING_ANYTHING(GetPlayerHandle()));
+}
+
+void NotifyMap(std::string msg, bool blink)
 {
 	UI::SET_TEXT_OUTLINE();
 	UI::_SET_NOTIFICATION_TEXT_ENTRY("STRING");
@@ -185,9 +202,14 @@ void CPlayer::CPlayer::NotifyMap(std::string msg, bool blink)
 	UI::_DRAW_NOTIFICATION(BoolToBoolDef(blink), FALSE);
 }
 
-void CPlayer::HelpText(std::string msg, int shape)
+void HelpText(std::string msg, int shape)
 {
 	UI::_SET_TEXT_COMPONENT_FORMAT("STRING");
 	UI::ADD_TEXT_COMPONENT_SUBSTRING_PLAYER_NAME(&msg[0u]);
 	UI::_DISPLAY_HELP_TEXT_FROM_STRING_LABEL(0, 0, 0, shape);
+}
+
+bool IsOnline()
+{
+	return BoolDefToBool(PLAYER::IS_PLAYER_ONLINE());
 }

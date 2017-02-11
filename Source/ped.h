@@ -38,3 +38,4 @@ public:
 	void Resurrect();
 	int GetRelationshipBetweenPed(CPed ped);
 };
+CPed CreatePed(Hash model, Vector3 pos, int type, float heading = 0.0f);

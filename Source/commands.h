@@ -10,7 +10,6 @@ bool FindVehicleCommand(std::vector<std::string>);
 bool DropMoneyCommand(std::vector<std::string>);
 bool GiveAllWeaponsCommand(std::vector<std::string>);
 bool KillNearbyEnemiesCommand(std::vector<std::string>);
-bool DropMoneyWaitTimeCommand(std::vector<std::string>);
 bool InvincibilityCommand(std::vector<std::string>);
 bool FixVehicleCommand(std::vector<std::string>);
 bool FlyThroughWindshieldCommand(std::vector<std::string>);

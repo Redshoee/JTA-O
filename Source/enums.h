@@ -1491,3 +1491,19 @@ enum eGameState {
 	GameStateLoadingSP_MP = 6
 };
 
+enum eWeather
+{
+	WeatherClear = 0,
+	WeatherExtraSunny,
+	WeatherClouds,
+	WeatherOvercast,
+	WeatherRain,
+	WeatherClearing,
+	WeatherThunder,
+	WeatherSmog,
+	WeatherFoggy,
+	WeatherXmas,
+	WeatherSnowlight,
+	WeatherBlizzard
+};
+

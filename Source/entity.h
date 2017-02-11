@@ -21,6 +21,7 @@ public:
 	int GetMaxHealth();
 	float GetHeading();
 	void Kill();
+	void Delete();
 	void SetHealth(int hp);
 	void SetMaxHealth(int maxhp);
 	void SetHeading(float heading);

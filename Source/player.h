@@ -14,10 +14,7 @@ public:
 	void SetModel(Hash model);
 	int GetTeam();
 	void SetTeam(int team);
-	static void NotifyMap(std::string msg, bool blink = false);
-	static void HelpText(std::string msg, int shape = -1);
 	char* GetName();
-	static CPlayer GetPlayerByName(std::string pname); //Get's a player by name. Returns -1 on failure.
 	float GetWantedLevelRadius();
 	void SetWantedLevel(int level, bool now);
 	void SetDispatchCops(bool toggle);
@@ -37,12 +34,20 @@ public:
 	float GetRemainingSprintTime();
 	float GetRemainingSprintStamina();
 	bool GiveAchievement(int achieve);
-	static bool IsOnline();
-	static CPlayer GetLocalPlayer();
 	void SetInvincible(bool toggle);
 	bool IsInvincible();
 	void RemoveHelmet();
 	void SetRagdollControl(bool toggle);
-	static void SetTargetingMode(int mode);
 	bool CanPedHear(CPed ped);
+	Color3 GetPlayerRGB();
+	int GetPlayerTeam();
+	void SetPlayerTeam(int team);
+	bool IsTargetingAnything();
 };
+CPlayer GetLocalPlayer();
+void SetTargetingMode(int mode);
+bool IsOnline();
+CPlayer GetPlayerByName(std::string pname); //TODO: Rewrite
+void NotifyMap(std::string msg, bool blink = false);
+void HelpText(std::string msg, int shape = -1);
+int GetPlayerCount();

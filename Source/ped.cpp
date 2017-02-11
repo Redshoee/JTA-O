@@ -144,3 +144,8 @@ int CPed::GetRelationshipBetweenPed(CPed ped)
 {
 	return PED::GET_RELATIONSHIP_BETWEEN_PEDS(GetHandle(), ped.GetHandle());
 }
+
+CPed CreatePed(Hash model, Vector3 pos, int type, float heading)
+{
+	return CPed(PED::CREATE_PED(type, model, pos.x, pos.y, pos.z, heading, TRUE, TRUE));
+}

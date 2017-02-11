@@ -93,7 +93,7 @@ bool RunCommand(std::string cmd, std::vector<std::string> args)
 	CmdPtr commandToExec = conCommands[cmd];
 	if (commandToExec == nullptr)
 	{
-		CPlayer::NotifyMap("Unknown command.");
+		NotifyMap("Unknown command.");
 		Log::Msg("WARNING: Attempted to run a command that didn't exist?");
 		return false;
 	}
@@ -137,12 +137,12 @@ void TeleportToMarker()
 
 	if (coords.x == 0 && coords.y == 0)
 	{
-		CPlayer::NotifyMap("No Waypoint has been set!");
+		NotifyMap("No Waypoint has been set!");
 		return;
 	}
 
 	// get entity to teleport
-	CEntity e = CPlayer::GetLocalPlayer().GetPed();
+	CEntity e = GetLocalPlayer().GetPed();
 	if (CPed(e.GetHandle()).IsInAnyVehicle(true))
 		e = CPed(e.GetHandle()).GetCurrentVehicle();
 

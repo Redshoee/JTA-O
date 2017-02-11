@@ -49,3 +49,4 @@
 #include "ped.h"
 #include "vehicle.h"
 #include "player.h"
+#include "globalnatives.h"

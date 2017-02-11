@@ -93,6 +93,7 @@
     <ClInclude Include="CrossMapping.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="enums.h" />
+    <ClInclude Include="globalnatives.h" />
     <ClInclude Include="Hooking.h" />
     <ClInclude Include="InputHook.h" />
     <ClInclude Include="keyboard.h" />
@@ -123,6 +124,7 @@
       </PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="entity.cpp" />
+    <ClCompile Include="globalnatives.cpp" />
     <ClCompile Include="Hooking.cpp" />
     <ClCompile Include="InputHook.cpp" />
     <ClCompile Include="keyboard.cpp" />

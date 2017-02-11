@@ -21,6 +21,11 @@ void CEntity::SetHeading(float heading)
 	ENTITY::SET_ENTITY_HEADING(GetHandle(), heading);
 }
 
+void CEntity::Delete()
+{
+	ENTITY::DELETE_ENTITY((Entity *)GetHandle());
+}
+
 bool CEntity::Exists()
 {
 	return BoolDefToBool(ENTITY::DOES_ENTITY_EXIST(GetHandle()));

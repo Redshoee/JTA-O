@@ -5349,7 +5349,7 @@ void CrossMapping::dumpNativeMappingCache()
 			fputs(buffer, file);
 		}
 
-		PlaySound(L"C:\\WINDOWS\\Media\\tada.wav", NULL, SND_ASYNC);
+		//PlaySound(L"C:\\WINDOWS\\Media\\tada.wav", NULL, SND_ASYNC);
 
 		fclose(file);
 	}
