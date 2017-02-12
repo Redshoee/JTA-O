@@ -27,6 +27,7 @@
 #include <MinHook.h>
 #include <timeapi.h>
 #include <time.h>
+#include <thread>
 
 #pragma comment(lib, "winmm.lib")
 
