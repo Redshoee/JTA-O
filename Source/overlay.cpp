@@ -11,3 +11,8 @@ void Overlay::Draw()
 	if (Overlay::overlaysEnabled)
 		InternalDraw();
 }
+
+std::string Overlay::GetName()
+{
+	return name;
+}
