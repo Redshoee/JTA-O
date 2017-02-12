@@ -37,7 +37,7 @@ void Script::OnTick()
 
 	if (drop)
 	{
-		UpdateNearbyPeds(GetLocalPlayer().GetPed().GetHandle(), 500);
+		UpdateNearbyPeds(GetLocalPlayer().GetPed().GetHandle(), 5);
 		for each(Ped p in GetNearbyPeds())
 		{
 			CPed cp = CPed(p);
