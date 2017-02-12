@@ -62,6 +62,38 @@ struct Vector3
 #pragma pack(pop)
 
 #pragma pack(push, 1)
+struct Vector2
+{
+	Vector2() {}
+
+	Vector2(float x, float y)
+	{
+		this->x = x;
+		this->y = y;
+	}
+
+	inline Vector2 operator+(Vector2 a) {
+		return Vector2(x + a.x, y + a.y);
+	}
+
+	inline bool operator==(Vector2 a) {
+		return a.x == x && a.y == y;
+	}
+
+	inline Vector2 operator*(Vector2 a) {
+		return Vector2(x * a.x, y * a.y);
+	}
+
+	float x;
+	DWORD _paddingx;
+	float y;
+	DWORD _paddingy;
+	float z;
+	DWORD _paddingz;
+};
+#pragma pack(pop)
+
+#pragma pack(push, 1)
 typedef struct
 {
 	float x;

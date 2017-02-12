@@ -17,3 +17,4 @@ Raycast CastRay(Vector3 source, Vector3 direction, float maxDistance, eIntersect
 void DrawLine(Vector3 from, Vector3 to, Color4 col);
 void DrawPoly(Vector3 a, Vector3 b, Vector3 c, Color4 col);
 void DrawBox(Vector3 a, Vector3 b, Color4 col);
+Vector2 WorldToScreen(Vector3 pos);

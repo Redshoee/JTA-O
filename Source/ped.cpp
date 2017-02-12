@@ -30,6 +30,12 @@ void CPed::GiveWeapon(uint wep, int ammo, bool hide, bool equipNow)
 {
 	WEAPON::GIVE_WEAPON_TO_PED(GetHandle(), wep, ammo, BoolToBoolDef(hide), BoolToBoolDef(equipNow));
 }
+
+int CPed::GetArmor()
+{
+	return PED::GET_PED_ARMOUR(GetHandle());
+}
+
 bool CPed::IsHuman()
 {
 	return BoolDefToBool(PED::IS_PED_HUMAN(GetHandle()));

@@ -24,6 +24,7 @@ public:
 	void GiveWeapon(uint wep, int ammo, bool hide, bool equipNow);
 	void SetDucking(bool toggle);
 	bool IsProne();
+	int GetArmor();
 	bool IsInCombat(CPed target);
 	bool IsJacking();
 	bool IsBeingJacked();

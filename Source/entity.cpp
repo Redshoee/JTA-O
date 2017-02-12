@@ -21,6 +21,11 @@ void CEntity::SetHeading(float heading)
 	ENTITY::SET_ENTITY_HEADING(GetHandle(), heading);
 }
 
+bool CEntity::HasLineOfSightTo(CEntity ent, int traceType)
+{
+	return BoolDefToBool(ENTITY::HAS_ENTITY_CLEAR_LOS_TO_ENTITY(GetHandle(), ent.GetHandle(), traceType));
+}
+
 bool CEntity::RequestControl(bool waitforcontrol)
 {
 	if (waitforcontrol)

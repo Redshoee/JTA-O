@@ -19,6 +19,7 @@ public:
 	int GetHealth();
 	Hash GetModel();
 	int GetMaxHealth();
+	bool HasLineOfSightTo(CEntity ent, int traceType = 17);
 	float GetHeading();
 	void Kill();
 	bool RequestControl(bool waitforcontrol = false);

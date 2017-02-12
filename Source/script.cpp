@@ -5,10 +5,11 @@
 #include "player.h"
 #include "vehicle.h"
 #include "commands.h"
+#include "debug_overlay.h"
 
 float boostSpeed = 50.0f;
-bool overlay = false;
 bool drop = false;
+DebugOverlay debugOverlay = DebugOverlay();
 
 bool Script::IsInit()
 {
@@ -48,4 +49,5 @@ void Script::OnTick()
 			DropMoney(Vector3(GetLocalPlayer().GetCoordinates().x, GetLocalPlayer().GetCoordinates().y, GetLocalPlayer().GetCoordinates().z));
 		WAIT(500);
 	}
+	debugOverlay.Draw();
 }

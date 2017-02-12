@@ -12,6 +12,7 @@ bool GiveAllWeaponsCommand(std::vector<std::string>);
 bool KillNearbyEnemiesCommand(std::vector<std::string>);
 bool ExplodeNearbyVehiclesCommand(std::vector<std::string>);
 bool InvincibilityCommand(std::vector<std::string>);
+bool OverlayCommand(std::vector<std::string>);
 bool FixVehicleCommand(std::vector<std::string>);
 bool FlyThroughWindshieldCommand(std::vector<std::string>);
 bool SecretCommand(std::vector<std::string>);

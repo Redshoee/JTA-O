@@ -24,7 +24,6 @@ public:
 	int GetWantedLevel();
 	void SetPoliceIgnore(bool toggle);
 	void SetPoliceBlips(bool toggle);
-	bool IsValid();
 	void SetEveryoneIgnore(bool toggle);
 	void ResetWantedLevelDifficulty();
 	void SetWantedLevelDifficulty(float difficulty);

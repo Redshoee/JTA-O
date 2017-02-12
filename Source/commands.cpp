@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "script.h"
+#include "overlay.h"
 
 bool WantedLevelCommand(std::vector<std::string> args)
 {
@@ -41,7 +42,7 @@ bool TeleportCommand(std::vector<std::string> args)
 		return false;
 	}
 	CPlayer target = GetPlayerByName(args[1]);
-	if (!target.IsValid())
+	if (!target.Exists())
 	{
 		NotifyMap("~r~Invalid player.");
 		return false;
@@ -166,6 +167,13 @@ bool KillNearbyEnemiesCommand(std::vector<std::string> args)
 	return true;
 }
 
+bool OverlayCommand(std::vector<std::string>)
+{
+	Overlay::overlaysEnabled = !Overlay::overlaysEnabled;
+	NotifyMap("~g~Toggled overlay.");
+	return true;
+}
+
 bool ExplodeNearbyVehiclesCommand(std::vector<std::string>)
 {
 		int killCount = 0;
@@ -196,6 +204,7 @@ void RegisterCommands()
 	AddCommand("find_vehicle", FindVehicleCommand);
 	AddCommand("spawn_vehicle", SpawnVehicleCommand);
 	AddCommand("kill_nearby", KillNearbyEnemiesCommand);
+	AddCommand("overlay", OverlayCommand);
 	AddCommand("fix_vehicle", FixVehicleCommand);
 	AddCommand("explode_nearby", ExplodeNearbyVehiclesCommand);
 	AddCommand("give_weapons", GiveAllWeaponsCommand);

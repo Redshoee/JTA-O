@@ -17,5 +17,8 @@ void DropMoney(Vector3 pos, int cash = 2000);
 std::set<Ped> GetNearbyPeds();
 void UpdateNearbyPeds(Ped playerPed, int count);
 std::set<Ped> GetNearbyVehicles();
+void DrawUIText(std::string text, Vector2 pos, Color4 col, float size, eFont font);
 void UpdateNearbyVehicles(Ped playerPed, int count);
 Hash $(std::string name);
+std::set<Player> GetPlayersInGame();
+CPlayer GetPlayerByPed(CPed ped);

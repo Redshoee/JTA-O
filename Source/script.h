@@ -1,7 +1,6 @@
 #pragma once
 
 extern float boostSpeed;
-extern bool overlay;
 extern bool drop;
 
 class Script

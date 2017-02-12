@@ -161,16 +161,14 @@ Color3 CPlayer::GetPlayerRGB()
 	return Color3(*r, *g, *b);
 }
 
-bool CPlayer::IsValid()
-{
-	return BoolDefToBool(ENTITY::DOES_ENTITY_EXIST(GetPed().GetHandle()));
-}
-
 CPlayer GetPlayerByName(std::string pname) //Returns a Player by name. Returns -1 if no player found.
 {
-	for (int i = 0; i < 30; i++)
-		if (strcmp(PLAYER::GET_PLAYER_NAME(i), pname.c_str()) == 0)
-			return CPlayer(i);
+	for each(Player plyHandle in GetPlayersInGame())
+	{
+		CPlayer ply = CPlayer(plyHandle);
+		if (strcmp(ply.GetName(), pname.c_str()) == 0)
+			return ply;
+	}
 	return CPlayer(-1);
 }
 

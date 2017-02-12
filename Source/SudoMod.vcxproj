@@ -94,6 +94,7 @@
   <ItemGroup>
     <ClInclude Include="commands.h" />
     <ClInclude Include="cross_mapping.h" />
+    <ClInclude Include="debug_overlay.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="enums.h" />
     <ClInclude Include="globalnatives.h" />
@@ -105,6 +106,7 @@
     <ClInclude Include="native_caller.h" />
     <ClInclude Include="native_invoker.h" />
     <ClInclude Include="natives.h" />
+    <ClInclude Include="overlay.h" />
     <ClInclude Include="ped.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="script.h" />
@@ -118,6 +120,7 @@
   <ItemGroup>
     <ClCompile Include="commands.cpp" />
     <ClCompile Include="cross_mapping.cpp" />
+    <ClCompile Include="debug_overlay.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</CompileAsManaged>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -134,6 +137,7 @@
     <ClCompile Include="log.cpp" />
     <ClCompile Include="memory.cpp" />
     <ClCompile Include="native_invoker.cpp" />
+    <ClCompile Include="overlay.cpp" />
     <ClCompile Include="ped.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="script.cpp" />

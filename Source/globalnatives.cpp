@@ -83,3 +83,10 @@ void DrawBox(Vector3 a, Vector3 b, Color4 col)
 {
 	GRAPHICS::DRAW_BOX(a.x, a.y, a.z, b.x, b.y, b.z, col.r, col.g, col.b, col.a);
 }
+
+Vector2 WorldToScreen(Vector3 pos)
+{
+	float outx, outy;
+	GRAPHICS::_WORLD3D_TO_SCREEN2D(pos.x, pos.y, pos.z, &outx, &outy);
+	return Vector2(outx, outy);
+}

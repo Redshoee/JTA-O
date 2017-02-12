@@ -57,7 +57,7 @@ BOOL BoolToBoolDef(bool b)
 
 bool BoolDefToBool(BOOL b) 
 {
-	return b == 1;
+	return b == TRUE;
 }
 
 std::vector<std::string> Split(std::string str, std::string sep) {
@@ -280,4 +280,37 @@ void UpdateNearbyVehicles(Ped playerPed, int count)
 Hash $(std::string name)
 {
 	return GAMEPLAY::GET_HASH_KEY(&name[0u]);
+}
+
+void DrawUIText(std::string text, Vector2 pos, Color4 col, float size, eFont font)
+{
+	UI::SET_TEXT_FONT(font);
+	UI::SET_TEXT_SCALE(size, size);
+	UI::SET_TEXT_COLOUR(col.r, col.g, col.b, col.a);
+	UI::SET_TEXT_CENTRE(TRUE);
+	UI::_SET_TEXT_ENTRY("STRING");
+	UI::ADD_TEXT_COMPONENT_SUBSTRING_PLAYER_NAME(&text[0u]);
+	UI::_DRAW_TEXT(pos.x, pos.y);
+}
+
+std::set<Player> GetPlayersInGame() //TODO: Use CPlayer
+{
+	std::set<Player> players;
+	for (int i = 0; i < 30; i++)
+	{
+		if (CPlayer(i).Exists())
+			players.insert(i);
+	}
+	return players;
+}
+
+CPlayer GetPlayerByPed(CPed ped)
+{
+	for each(Player ply in GetPlayersInGame())
+	{
+		CPlayer ply = CPlayer(ply);
+		if (ply.GetPed().GetHandle() == ped.GetHandle())
+			return ply;
+		return CPlayer(-1);
+	}
 }
