@@ -87,10 +87,10 @@
     <ClInclude Include="input_hook.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="overlay.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="debug_overlay.h">
+      <Filter>Header Files\Overlays</Filter>
+    </ClInclude>
+    <ClInclude Include="overlay.h">
       <Filter>Header Files\Overlays</Filter>
     </ClInclude>
   </ItemGroup>
@@ -146,10 +146,10 @@
     <ClCompile Include="memory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="overlay.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="debug_overlay.cpp">
+      <Filter>Source Files\Overlays</Filter>
+    </ClCompile>
+    <ClCompile Include="overlay.cpp">
       <Filter>Source Files\Overlays</Filter>
     </ClCompile>
   </ItemGroup>
