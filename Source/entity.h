@@ -14,18 +14,20 @@ private:
 public:
 	CEntity(uint handle);
 
-	void SetCoordinates(Vector3 coords, bool clearArea);
+	void SetCoordinates(Vector3 coords, bool clearArea = false);
 	bool Exists();
 	int GetHealth();
 	Hash GetModel();
 	int GetMaxHealth();
 	float GetHeading();
 	void Kill();
+	bool RequestControl(bool waitforcontrol = false);
+	eEntityType GetEntityType();
 	void Delete();
 	void SetHealth(int hp);
 	void SetMaxHealth(int maxhp);
 	void SetHeading(float heading);
-	Vector3 GetCoordinates(bool alive);
+	Vector3 GetCoordinates(bool alive = false);
 	uint GetHandle();
 	bool IsDead();
 };

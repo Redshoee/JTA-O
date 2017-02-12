@@ -13,24 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="JTA">
-      <UniqueIdentifier>{7d95c490-ed14-4fd0-80e5-106a2ce580ba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="JTA\Sources">
-      <UniqueIdentifier>{fefc6c2d-a782-4082-a6cb-6aaa3294ca8e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="JTA\Headers">
-      <UniqueIdentifier>{081d874b-b37d-4cd5-b0f3-e9b836b3b4e8}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Log.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Hooking.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
@@ -39,56 +24,62 @@
     <ClInclude Include="natives.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="nativeCaller.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Memory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="NativeInvoker.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CrossMapping.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InputHook.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="keyboard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="script.h">
-      <Filter>JTA\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="entity.h">
-      <Filter>JTA\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="vehicle.h">
-      <Filter>JTA\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Structs.h">
-      <Filter>JTA\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="ped.h">
-      <Filter>JTA\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="utils.h">
-      <Filter>JTA\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="player.h">
-      <Filter>JTA\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="enums.h">
-      <Filter>JTA\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="types.h">
-      <Filter>JTA\Headers</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="commands.h">
-      <Filter>JTA\Headers</Filter>
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="enums.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="globalnatives.h">
-      <Filter>JTA\Headers</Filter>
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ped.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="script.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Structs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cross_mapping.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hooking.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="native_invoker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="native_caller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="memory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="log.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="input_hook.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -98,50 +89,50 @@
     <ClCompile Include="dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Log.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Hooking.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Memory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="NativeInvoker.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CrossMapping.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="keyboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="InputHook.cpp">
+    <ClCompile Include="commands.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="globalnatives.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ped.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="script.cpp">
-      <Filter>JTA\Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="entity.cpp">
-      <Filter>JTA\Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="vehicle.cpp">
-      <Filter>JTA\Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="ped.cpp">
-      <Filter>JTA\Sources</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="utils.cpp">
-      <Filter>JTA\Sources</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>JTA\Sources</Filter>
+    <ClCompile Include="vehicle.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="commands.cpp">
-      <Filter>JTA\Sources</Filter>
+    <ClCompile Include="cross_mapping.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="globalnatives.cpp">
-      <Filter>JTA\Sources</Filter>
+    <ClCompile Include="input_hook.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="native_invoker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hooking.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="log.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="memory.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

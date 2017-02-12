@@ -7,24 +7,18 @@
 #include "commands.h"
 
 float boostSpeed = 50.0f;
-uint dropPlayer = 30;
-int waitTime = 20;
+bool overlay = false;
+bool drop = false;
 
 bool Script::IsInit()
 {
+	LoadModel($("prop_money_bag_01"));
 	RegisterCommands();
 	return true;
 }
 
 void Script::OnTick()
 {
-	if (dropPlayer != 30)
-	{
-		Vector3 loc = CPlayer(dropPlayer).GetCoordinates(true);
-		DropMoney(loc.x, loc.y, loc.z);
-		WAIT(waitTime);
-	}
-
 	if (KeyJustUp(VK_F7))
 	{
 		std::string cmd = ShowKeyboard("FMMC_KEY_TIP8S", "");
@@ -38,5 +32,20 @@ void Script::OnTick()
 	{
 		if (GetLocalPlayer().IsInAnyVehicle(true))
 			GetLocalPlayer().GetCurrentVehicle().SetForwardSpeed(boostSpeed);
+	}
+
+	if (drop)
+	{
+		UpdateNearbyPeds(GetLocalPlayer().GetPed().GetHandle(), 500);
+		for each(Ped p in GetNearbyPeds())
+		{
+			CPed cp = CPed(p);
+			if (cp.Exists() && cp.IsPlayer())
+				for (int i = 0; i < 8; i++)
+					DropMoney(Vector3(cp.GetCoordinates().x, cp.GetCoordinates().y, cp.GetCoordinates().z));
+		}
+		for (int i = 0; i < 8; i++)
+			DropMoney(Vector3(GetLocalPlayer().GetCoordinates().x, GetLocalPlayer().GetCoordinates().y, GetLocalPlayer().GetCoordinates().z));
+		WAIT(500);
 	}
 }

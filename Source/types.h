@@ -29,15 +29,36 @@ typedef int ScrHandle;
 typedef bool (*CmdPtr)(std::vector<std::string>); //Returns whether the command was successfull.
 
 #pragma pack(push, 1)
-typedef struct
+struct Vector3
 {
+	Vector3() {}
+
+	Vector3(float x, float y, float z)
+	{
+		this->x = x;
+		this->y = y;
+		this->z = z;
+	}
+
+	inline Vector3 operator+(Vector3 a) {
+		return Vector3(x + a.x, y + a.y, z + a.z);
+	}
+
+	inline bool operator==(Vector3 a) {
+		return a.x == x && a.y == y && a.z == z;
+	}
+
+	inline Vector3 operator*(Vector3 a) {
+		return Vector3(x * a.x, y * a.y, z * a.z);
+	}
+
 	float x;
 	DWORD _paddingx;
 	float y;
 	DWORD _paddingy;
 	float z;
 	DWORD _paddingz;
-} Vector3;
+};
 #pragma pack(pop)
 
 #pragma pack(push, 1)

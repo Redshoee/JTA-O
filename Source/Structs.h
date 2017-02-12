@@ -1,4 +1,6 @@
 #pragma once
+#include "stdafx.h"
+#include "entity.h"
 
 struct Color3
 {
@@ -21,4 +23,18 @@ struct Color4
 		this->a = a;
 	}
 	int r, g, b, a;
+};
+
+struct Raycast
+{
+	Raycast(Vector3 source, Vector3 hitpos, bool dithit, CEntity hitent)
+	{
+		this->source = source;
+		this->hitpos = hitpos;
+		this->dithit = dithit;
+		this->hitent = hitent;
+	}
+	Vector3 source, hitpos;
+	CEntity hitent = CEntity(-1);
+	bool dithit;
 };

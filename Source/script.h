@@ -1,8 +1,8 @@
 #pragma once
 
 extern float boostSpeed;
-extern int waitTime;
-extern uint dropPlayer;
+extern bool overlay;
+extern bool drop;
 
 class Script
 {

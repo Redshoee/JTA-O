@@ -87,20 +87,23 @@
       <AdditionalLibraryDirectories>$(ProjectDir)MinHook\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>libMinHook-x64-v140-md.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(TargetPath)" "E:\Steam\steamapps\common\Grand Theft Auto V\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="commands.h" />
-    <ClInclude Include="CrossMapping.h" />
+    <ClInclude Include="cross_mapping.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="enums.h" />
     <ClInclude Include="globalnatives.h" />
-    <ClInclude Include="Hooking.h" />
-    <ClInclude Include="InputHook.h" />
+    <ClInclude Include="hooking.h" />
+    <ClInclude Include="input_hook.h" />
     <ClInclude Include="keyboard.h" />
-    <ClInclude Include="Log.h" />
-    <ClInclude Include="Memory.h" />
-    <ClInclude Include="nativeCaller.h" />
-    <ClInclude Include="NativeInvoker.h" />
+    <ClInclude Include="log.h" />
+    <ClInclude Include="memory.h" />
+    <ClInclude Include="native_caller.h" />
+    <ClInclude Include="native_invoker.h" />
     <ClInclude Include="natives.h" />
     <ClInclude Include="ped.h" />
     <ClInclude Include="player.h" />
@@ -114,7 +117,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="commands.cpp" />
-    <ClCompile Include="CrossMapping.cpp" />
+    <ClCompile Include="cross_mapping.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</CompileAsManaged>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -125,12 +128,12 @@
     </ClCompile>
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="globalnatives.cpp" />
-    <ClCompile Include="Hooking.cpp" />
-    <ClCompile Include="InputHook.cpp" />
+    <ClCompile Include="hooking.cpp" />
+    <ClCompile Include="input_hook.cpp" />
     <ClCompile Include="keyboard.cpp" />
-    <ClCompile Include="Log.cpp" />
-    <ClCompile Include="Memory.cpp" />
-    <ClCompile Include="NativeInvoker.cpp" />
+    <ClCompile Include="log.cpp" />
+    <ClCompile Include="memory.cpp" />
+    <ClCompile Include="native_invoker.cpp" />
     <ClCompile Include="ped.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="script.cpp" />

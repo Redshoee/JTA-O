@@ -7,7 +7,7 @@ class CVehicle : public CEntity
 public:
 	CVehicle(uint handle) : CEntity(handle) {};
 
-	void Explode(bool audible, bool visible);
+	void Explode(bool audible = true, bool visible = true);
 	Color3 GetPrimaryColor();
 	Color3 GetSecondaryColor();
 	void SetPrimaryColor(Color3 color);

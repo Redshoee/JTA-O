@@ -3,6 +3,7 @@
 std::map<std::string, CmdPtr> conCommands;
 
 std::set<Ped>lastSeenPeds;
+std::set<Ped>lastSeenVehicles;
 
 std::vector<std::string> weapons = {
 "WEAPON_UNARMED", //Add weapons after this
@@ -126,6 +127,8 @@ bool LoadModel(Hash model)
 		return false;
 	if (!STREAMING::IS_MODEL_VALID(model))
 		return false;
+	if (STREAMING::HAS_MODEL_LOADED(model))
+		return false;
 	STREAMING::REQUEST_MODEL(model);
 	while (!STREAMING::HAS_MODEL_LOADED(model)) WAIT(0);
 	return true;
@@ -193,14 +196,19 @@ Vector3 GetBlipMarker()
 	return zero;
 }
 
-void DropMoney(float x, float y, float z)
+void DropMoney(Vector3 pos, int cash)
 {
-	OBJECT::CREATE_MONEY_PICKUPS(x, y, z, 2000, 1, 0);
+	OBJECT::CREATE_MONEY_PICKUPS(pos.x, pos.y, pos.z, cash, 1, $("prop_money_bag_01"));
 }
 
 std::set<Ped> GetNearbyPeds()
 {
 	return lastSeenPeds;
+}
+
+std::set<Ped> GetNearbyVehicles()
+{
+	return lastSeenVehicles;
 }
 
 void UpdateNearbyPeds(Ped playerPed, int count)
@@ -234,6 +242,39 @@ void UpdateNearbyPeds(Ped playerPed, int count)
 			++it;
 
 	delete peds;
+}
+
+void UpdateNearbyVehicles(Ped playerPed, int count)
+{
+	const int numElements = count;
+	const int arrSize = numElements * 2 + 2;
+
+	Vehicle *vehicles = new Vehicle[arrSize];
+	vehicles[0] = numElements;
+	int found = PED::GET_PED_NEARBY_VEHICLES(playerPed, vehicles);
+
+	for (int i = 0; i < found; i++)
+	{
+		int offsettedID = i * 2 + 2;
+
+		if (!ENTITY::DOES_ENTITY_EXIST(vehicles[offsettedID]))
+			continue;
+
+		Vehicle xvehicle = vehicles[offsettedID];
+
+		bool inSet = lastSeenVehicles.find(xvehicle) != lastSeenVehicles.end();
+		if (!inSet)
+			lastSeenVehicles.insert(xvehicle);
+	}
+
+	std::set<Ped>::iterator it;
+	for (it = lastSeenVehicles.begin(); it != lastSeenVehicles.end();)
+		if (!ENTITY::DOES_ENTITY_EXIST(*it))
+			lastSeenVehicles.erase(it++);
+		else
+			++it;
+
+	delete vehicles;
 }
 
 Hash $(std::string name)

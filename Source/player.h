@@ -51,3 +51,4 @@ CPlayer GetPlayerByName(std::string pname); //TODO: Rewrite
 void NotifyMap(std::string msg, bool blink = false);
 void HelpText(std::string msg, int shape = -1);
 int GetPlayerCount();
+Raycast GetLookCoordinates();

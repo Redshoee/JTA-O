@@ -1507,3 +1507,9 @@ enum eWeather
 	WeatherBlizzard
 };
 
+enum eEntityType
+{
+	PedType = 1,
+	VehicleType,
+	ObjectType
+};

@@ -189,6 +189,20 @@ void CPlayer::SetPlayerTeam(int team)
 	PLAYER::SET_PLAYER_TEAM(GetPlayerHandle(), team);
 }
 
+Raycast GetLookCoordinates()
+{
+	Vector3 camCoords = CAM::GET_GAMEPLAY_CAM_COORD();
+	Vector3 camRot = CAM::GET_GAMEPLAY_CAM_ROT(2);
+	float retz = camRot.z * 0.0174532924F;
+	float retx = camRot.x * 0.0174532924F;
+	float absx = abs(cos(retx));
+	Vector3 camStuff;
+	camStuff.x = sin(retz) * absx  * -1;
+	camStuff.y = cos(retz) * absx;
+	camStuff.z = sin(retx);
+	return CastRay(camCoords, camStuff, 9999999.0f, IntersectFlagsEverything);
+}
+
 bool CPlayer::IsTargetingAnything()
 {
 	return BoolDefToBool(PLAYER::IS_PLAYER_TARGETTING_ANYTHING(GetPlayerHandle()));

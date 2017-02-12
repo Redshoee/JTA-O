@@ -21,6 +21,18 @@ void CEntity::SetHeading(float heading)
 	ENTITY::SET_ENTITY_HEADING(GetHandle(), heading);
 }
 
+bool CEntity::RequestControl(bool waitforcontrol)
+{
+	if (waitforcontrol)
+	{
+		while (!NETWORK::NETWORK_REQUEST_CONTROL_OF_ENTITY(GetHandle()))
+			WAIT(0);
+		return true;
+	}
+	else
+		return BoolDefToBool(NETWORK::NETWORK_REQUEST_CONTROL_OF_ENTITY(GetHandle()));
+}
+
 void CEntity::Delete()
 {
 	ENTITY::DELETE_ENTITY((Entity *)GetHandle());
@@ -29,6 +41,11 @@ void CEntity::Delete()
 bool CEntity::Exists()
 {
 	return BoolDefToBool(ENTITY::DOES_ENTITY_EXIST(GetHandle()));
+}
+
+eEntityType CEntity::GetEntityType()
+{
+	return (eEntityType) ENTITY::GET_ENTITY_TYPE(GetHandle());
 }
 
 int CEntity::GetHealth()

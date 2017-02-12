@@ -55,3 +55,31 @@ void CreateOwnedExplosion(Vector3 pos, eExplosionType type, float damageScale, b
 {
 	FIRE::ADD_OWNED_EXPLOSION(owner.GetHandle(), pos.x, pos.y, pos.z, type, damageScale, BoolToBoolDef(audiable), BoolToBoolDef(!visible), cameraShake);
 }
+
+Raycast CastRay(Vector3 source, Vector3 direction, float maxDistance, eIntersectFlags intersectOptions)
+{
+	Vector3 target;
+	BOOL hit;
+	Vector3 endCoords;
+	Vector3 surfaceNormal;
+	Entity hitEntity;
+
+	int ray = WORLDPROBE::_CAST_RAY_POINT_TO_POINT(source.x, source.y, source.z, direction.x, direction.y, direction.z, intersectOptions, 0, 7);
+	WORLDPROBE::GET_SHAPE_TEST_RESULT(ray, &hit, &endCoords, &surfaceNormal, &hitEntity);
+	return Raycast(source, endCoords, BoolDefToBool(hit), CEntity(hitEntity));
+}
+
+void DrawLine(Vector3 from, Vector3 to, Color4 col)
+{
+	GRAPHICS::DRAW_LINE(from.x, from.y, from.z, to.x, to.y, to.z, col.r, col.g, col.b, col.a);
+}
+
+void DrawPoly(Vector3 a, Vector3 b, Vector3 c, Color4 col)
+{
+	GRAPHICS::DRAW_POLY(a.x, a.y, a.z, b.x, b.y, b.z, c.x, c.y, c.z, col.r, col.g, col.b, col.a);
+}
+
+void DrawBox(Vector3 a, Vector3 b, Color4 col)
+{
+	GRAPHICS::DRAW_BOX(a.x, a.y, a.z, b.x, b.y, b.z, col.r, col.g, col.b, col.a);
+}

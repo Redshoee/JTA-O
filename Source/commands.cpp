@@ -26,9 +26,10 @@ bool SetVehicleSpeedCommand(std::vector<std::string> args)
 		NotifyMap("~r~Usage: speed [speed]");
 		return false;
 	}
+	
 	boostSpeed = atof(args[1].c_str());
 	char msg[128];
-	sprintf_s(msg, sizeof(msg), "~g~Your boost speed is now ~b~%f.", boostSpeed);
+	sprintf_s(msg, sizeof(msg), "~g~Your boost speed is now ~b~%f.", round(boostSpeed));
 	NotifyMap(std::string(msg));
 	return true;
 }
@@ -99,28 +100,11 @@ bool FindVehicleCommand(std::vector<std::string> args)
 
 bool DropMoneyCommand(std::vector<std::string> args)
 {
-	if (args.size() == 1)
-	{
-		dropPlayer = -1;
-		NotifyMap("~g~No longer dropping money.");
-		return true;
-	}
-	if (args.size() >= 2)
-	{
-		CPlayer target = GetPlayerByName(args[1]);
-		if (!target.IsValid())
-		{
-			NotifyMap("~r~Invalid player.");
-			return false;
-		}
-		dropPlayer = target.GetHandle();
-		char msg[128];
-		sprintf_s(msg, sizeof(msg), "~g~Now dropping money on ~p~%s", target.GetName());
-		NotifyMap(std::string(msg));
-		return true;
-	}
-	NotifyMap("You should not be able to get here. If you read this, then fuck.");
-	return false;
+	drop = !drop;
+	char msg[128];
+	sprintf_s(msg, sizeof(msg), "~g~Money drop is now ~p~%s.", (drop ? "enabled" : "disabled"));
+	NotifyMap(std::string(msg));
+	return true;
 }
 
 bool FixVehicleCommand(std::vector<std::string> args)
@@ -163,14 +147,14 @@ bool GiveAllWeaponsCommand(std::vector<std::string> args)
 bool KillNearbyEnemiesCommand(std::vector<std::string> args)
 {
 	int killCount = 0;
-	UpdateNearbyPeds(GetLocalPlayer().GetPed().GetHandle(), 3000);
+	UpdateNearbyPeds(GetLocalPlayer().GetPed().GetHandle(), 7500);
 	
 	for each(Ped p in GetNearbyPeds())
 	{
 		CPed cp = CPed(p);
 		if (cp.IsPlayer())
 			continue;
-		if(cp.GetRelationshipBetweenPed(GetLocalPlayer().GetPed()) == (RelationshipDislike || RelationshipHate))
+		if(cp.GetRelationshipBetweenPed(GetLocalPlayer().GetPed()) == RelationshipDislike || cp.GetRelationshipBetweenPed(GetLocalPlayer().GetPed()) == RelationshipHate)
 		{
 			cp.Kill();
 			killCount++;
@@ -182,6 +166,28 @@ bool KillNearbyEnemiesCommand(std::vector<std::string> args)
 	return true;
 }
 
+bool ExplodeNearbyVehiclesCommand(std::vector<std::string>)
+{
+		int killCount = 0;
+		UpdateNearbyVehicles(GetLocalPlayer().GetPed().GetHandle(), 7500);
+
+		for each(Vehicle v in GetNearbyVehicles())
+		{
+			CVehicle cv = CVehicle(v);
+			if (cv.GetDriver().GetRelationshipBetweenPed(GetLocalPlayer().GetPed()) == RelationshipDislike || cv.GetDriver().GetRelationshipBetweenPed(GetLocalPlayer().GetPed()) == RelationshipHate)
+			{
+				cv.RequestControl(true);
+				cv.Explode();
+				killCount++;
+			}
+		}
+		char msg[128];
+		sprintf_s(msg, sizeof(msg), "~g~Exploded ~b~%i ~g~vehicles.", killCount);
+		NotifyMap(std::string(msg));
+		return true;
+	return true;
+}
+
 void RegisterCommands()
 {
 	AddCommand("wanted_level", WantedLevelCommand);
@@ -189,8 +195,9 @@ void RegisterCommands()
 	AddCommand("drop_money", DropMoneyCommand);
 	AddCommand("find_vehicle", FindVehicleCommand);
 	AddCommand("spawn_vehicle", SpawnVehicleCommand);
-	AddCommand("kill_enemies", KillNearbyEnemiesCommand);
+	AddCommand("kill_nearby", KillNearbyEnemiesCommand);
 	AddCommand("fix_vehicle", FixVehicleCommand);
+	AddCommand("explode_nearby", ExplodeNearbyVehiclesCommand);
 	AddCommand("give_weapons", GiveAllWeaponsCommand);
 	AddCommand("fly_windscreen", FlyThroughWindshieldCommand);
 	AddCommand("teleport", TeleportCommand);
