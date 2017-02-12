@@ -16,3 +16,13 @@ std::string Overlay::GetName()
 {
 	return name;
 }
+
+bool Overlay::IsVisible()
+{
+	return visible;
+}
+
+void Overlay::SetVisible(bool toggle)
+{
+	visible = toggle;
+}
