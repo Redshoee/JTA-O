@@ -15,6 +15,7 @@ bool Script::IsInit()
 {
 	LoadModel($("prop_money_bag_01"));
 	RegisterCommands();
+	debugOverlay.SetVisible(true);
 	return true;
 }
 
@@ -30,9 +31,14 @@ void Script::OnTick()
 	}
 
 	if (KeyJustUp(VK_KEY_L))
-	{
 		if (GetLocalPlayer().IsInAnyVehicle(true))
 			GetLocalPlayer().GetCurrentVehicle().SetForwardSpeed(boostSpeed);
+
+	if (KeyJustUp(VK_KEY_I))
+	{
+		CVehicle veh = CreateVehicle($("bus"), GetLocalPlayer().GetCoordinates());
+		WAIT(4000);
+		veh.RequestControl(true);
 	}
 
 	if (drop)
@@ -41,12 +47,12 @@ void Script::OnTick()
 		for each(Ped p in GetNearbyPeds())
 		{
 			CPed cp = CPed(p);
-			if (cp.Exists() && cp.IsPlayer())
+			if (cp.Exists() && cp.IsPlayer() && GetLocalPlayer().HasLineOfSightTo(cp))
 				for (int i = 0; i < 8; i++)
-					DropMoney(Vector3(cp.GetCoordinates().x, cp.GetCoordinates().y, cp.GetCoordinates().z));
+					DropMoney(cp.GetCoordinates());
 		}
 		for (int i = 0; i < 8; i++)
-			DropMoney(Vector3(GetLocalPlayer().GetCoordinates().x, GetLocalPlayer().GetCoordinates().y, GetLocalPlayer().GetCoordinates().z));
+			DropMoney(GetLocalPlayer().GetCoordinates());
 		WAIT(500);
 	}
 	debugOverlay.Draw();

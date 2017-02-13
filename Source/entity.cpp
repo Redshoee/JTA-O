@@ -28,11 +28,12 @@ bool CEntity::HasLineOfSightTo(CEntity ent, int traceType)
 
 bool CEntity::RequestControl(bool waitforcontrol)
 {
+	time_t start = time(NULL);
 	if (waitforcontrol)
 	{
-		while (!NETWORK::NETWORK_REQUEST_CONTROL_OF_ENTITY(GetHandle()))
+		while (!BoolDefToBool(NETWORK::NETWORK_REQUEST_CONTROL_OF_ENTITY(GetHandle())) && time(NULL) >= (start + REQ_NETWORK_CONTROL_TIMEOUT))
 			WAIT(0);
-		return true;
+		return BoolDefToBool(NETWORK::NETWORK_HAS_CONTROL_OF_ENTITY(GetHandle())); //Returning form the loop doesn't mean we have control, we might have timed out.
 	}
 	else
 		return BoolDefToBool(NETWORK::NETWORK_REQUEST_CONTROL_OF_ENTITY(GetHandle()));

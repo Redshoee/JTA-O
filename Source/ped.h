@@ -14,7 +14,7 @@ public:
 	bool IsPlayer();
 	bool IsMale();
 	bool IsHuman();
-	void SetIntoVehicle(CVehicle veh, int seat);
+	void SetIntoVehicle(CVehicle veh, eVehicleSeat seat);
 	CVehicle GetCurrentVehicle();
 	CVehicle GetLastVehicle();
 	void ResetLastVehicle();

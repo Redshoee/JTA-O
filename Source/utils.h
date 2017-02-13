@@ -22,3 +22,4 @@ void UpdateNearbyVehicles(Ped playerPed, int count);
 Hash $(std::string name);
 std::set<Player> GetPlayersInGame();
 CPlayer GetPlayerByPed(CPed ped);
+bool ValidModel(Hash model);

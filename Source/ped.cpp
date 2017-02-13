@@ -131,7 +131,7 @@ void CPed::Resurrect()
 	PED::RESURRECT_PED(GetHandle());
 }
 
-void CPed::SetIntoVehicle(CVehicle veh, int seat)
+void CPed::SetIntoVehicle(CVehicle veh, eVehicleSeat seat)
 {
 	PED::SET_PED_INTO_VEHICLE(GetHandle(), veh.GetHandle(), seat);
 }

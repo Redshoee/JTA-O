@@ -314,3 +314,8 @@ CPlayer GetPlayerByPed(CPed ped)
 		return CPlayer(-1);
 	}
 }
+
+bool ValidModel(Hash model)
+{
+	return BoolDefToBool(STREAMING::IS_MODEL_VALID(model));
+}

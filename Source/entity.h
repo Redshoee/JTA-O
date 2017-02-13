@@ -1,5 +1,6 @@
 #pragma once
 #include "stdafx.h"
+#define REQ_NETWORK_CONTROL_TIMEOUT 5
 
 class CEntity;
 class CVehicle;
