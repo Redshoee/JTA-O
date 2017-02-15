@@ -25,6 +25,7 @@ Click on the **'releases'** tab, you can download a zip file containing all the 
 If you wish to build this yourself, go ahead; just make sure the DLL name matches the one included as the 'FileName' attrib in dinput.ini.
 
 ## I know what I'm doing and I want to make my own mod for online/offline.
-**Online**: I recommend using Sudomod. Do **NOT** use this mod as a base. It's filled with terrible programming practices and a Java programmer attemtping to program in C++. Please, use the Sudomod base, not this.
+**Online**: As of 2/12/17, I recommend using this as a base mod. How?
+I have no clue, I'm trying to figure out how to use C++ librarys.
 
 **Offline**: If you're a C++ programmer or know any other low-leveled language, I recommened [ScriptHookV](http://www.dev-c.com/gtav/scripthookv/). If you know Java, C#, or any other high-leveled language, I recommend [ScriptHookVDotNet](https://github.com/crosire/scripthookvdotnet). 
