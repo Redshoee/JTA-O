@@ -1513,3 +1513,12 @@ enum eEntityType
 	VehicleType,
 	ObjectType
 };
+
+enum eClosestVehicleFlags
+{
+	EmptyVehiclesOnly = 2,
+	CarsAndBikesOnly = 4,
+	OnlyWhenNotInVehicle = 70,
+	OnlyWhenInHeli = 67711,
+	PlanesOnly = 16384
+};

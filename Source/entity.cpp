@@ -98,3 +98,8 @@ uint CEntity::GetHandle()
 {
 	return handle;
 }
+
+void CEntity::SetInvincible(bool toggle)
+{
+	ENTITY::SET_ENTITY_INVINCIBLE(GetHandle(), BoolToBoolDef(toggle));
+}

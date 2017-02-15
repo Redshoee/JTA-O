@@ -32,4 +32,5 @@ public:
 	Vector3 GetCoordinates(bool alive = false);
 	uint GetHandle();
 	bool IsDead();
+	virtual void SetInvincible(bool toggle);
 };

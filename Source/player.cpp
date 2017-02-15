@@ -172,6 +172,7 @@ CPlayer GetPlayerByName(std::string pname) //Returns a Player by name. Returns -
 	return CPlayer(-1);
 }
 
+
 CPlayer GetLocalPlayer()
 {
 	return CPlayer(PLAYER::PLAYER_ID());
@@ -224,4 +225,26 @@ void HelpText(std::string msg, int shape)
 bool IsOnline()
 {
 	return BoolDefToBool(PLAYER::IS_PLAYER_ONLINE());
+}
+
+std::set<Player> GetPlayersInGame() //TODO: Use CPlayer
+{
+	std::set<Player> players;
+	for (int i = 0; i < 30; i++)
+	{
+		if (CPlayer(i).Exists())
+			players.insert(i);
+	}
+	return players;
+}
+
+CPlayer GetPlayerByPed(CPed ped)
+{
+	for each(Player ply in GetPlayersInGame())
+	{
+		CPlayer targ = CPlayer(ply);
+		if (targ.GetPed().GetHandle() == ped.GetHandle())
+			return targ;
+		return CPlayer(-1);
+	}
 }

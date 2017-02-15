@@ -90,3 +90,13 @@ Vector2 WorldToScreen(Vector3 pos)
 	GRAPHICS::_WORLD3D_TO_SCREEN2D(pos.x, pos.y, pos.z, &outx, &outy);
 	return Vector2(outx, outy);
 }
+
+bool ValidModel(Hash model)
+{
+	return BoolDefToBool(STREAMING::IS_MODEL_VALID(model));
+}
+
+bool IsModelLoaded(Hash model)
+{
+	return BoolDefToBool(STREAMING::HAS_MODEL_LOADED(model));
+}

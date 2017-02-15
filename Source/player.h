@@ -51,3 +51,5 @@ void NotifyMap(std::string msg, bool blink = false);
 void HelpText(std::string msg, int shape = -1);
 int GetPlayerCount();
 Raycast GetLookCoordinates();
+std::set<Player> GetPlayersInGame();
+CPlayer GetPlayerByPed(CPed ped);

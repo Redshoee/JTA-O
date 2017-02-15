@@ -2,6 +2,7 @@
 
 extern float boostSpeed;
 extern bool drop;
+extern bool selfdrop;
 
 class Script
 {

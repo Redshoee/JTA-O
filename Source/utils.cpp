@@ -292,30 +292,3 @@ void DrawUIText(std::string text, Vector2 pos, Color4 col, float size, eFont fon
 	UI::ADD_TEXT_COMPONENT_SUBSTRING_PLAYER_NAME(&text[0u]);
 	UI::_DRAW_TEXT(pos.x, pos.y);
 }
-
-std::set<Player> GetPlayersInGame() //TODO: Use CPlayer
-{
-	std::set<Player> players;
-	for (int i = 0; i < 30; i++)
-	{
-		if (CPlayer(i).Exists())
-			players.insert(i);
-	}
-	return players;
-}
-
-CPlayer GetPlayerByPed(CPed ped)
-{
-	for each(Player ply in GetPlayersInGame())
-	{
-		CPlayer ply = CPlayer(ply);
-		if (ply.GetPed().GetHandle() == ped.GetHandle())
-			return ply;
-		return CPlayer(-1);
-	}
-}
-
-bool ValidModel(Hash model)
-{
-	return BoolDefToBool(STREAMING::IS_MODEL_VALID(model));
-}

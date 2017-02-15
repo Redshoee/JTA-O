@@ -9,13 +9,12 @@
 
 float boostSpeed = 50.0f;
 bool drop = false;
+bool selfdrop = true;
 DebugOverlay debugOverlay = DebugOverlay();
 
 bool Script::IsInit()
 {
-	LoadModel($("prop_money_bag_01"));
 	RegisterCommands();
-	debugOverlay.SetVisible(true);
 	return true;
 }
 
@@ -34,15 +33,10 @@ void Script::OnTick()
 		if (GetLocalPlayer().IsInAnyVehicle(true))
 			GetLocalPlayer().GetCurrentVehicle().SetForwardSpeed(boostSpeed);
 
-	if (KeyJustUp(VK_KEY_I))
-	{
-		CVehicle veh = CreateVehicle($("bus"), GetLocalPlayer().GetCoordinates());
-		WAIT(4000);
-		veh.RequestControl(true);
-	}
-
 	if (drop)
 	{
+		if (!IsModelLoaded($("prop_money_bag_01")))
+			LoadModel($("prop_money_bag_01"));
 		UpdateNearbyPeds(GetLocalPlayer().GetPed().GetHandle(), 5);
 		for each(Ped p in GetNearbyPeds())
 		{
@@ -51,9 +45,12 @@ void Script::OnTick()
 				for (int i = 0; i < 8; i++)
 					DropMoney(cp.GetCoordinates());
 		}
-		for (int i = 0; i < 8; i++)
-			DropMoney(GetLocalPlayer().GetCoordinates());
-		WAIT(500);
+		if (selfdrop)
+		{
+			for (int i = 0; i < 8; i++)
+				DropMoney(GetLocalPlayer().GetCoordinates());
+			WAIT(500);
+		}
 	}
 	debugOverlay.Draw();
 }

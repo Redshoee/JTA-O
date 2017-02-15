@@ -20,56 +20,6 @@ bool SecretCommand(std::vector<std::string> args)
 	return true;
 }
 
-bool ExplodeVehicleCommand(std::vector<std::string> args)
-{
-	if (args.size() < 2)
-	{
-		NotifyMap("~r~Usage: explode_vehicle [player name]");
-		return false;
-	}
-	CPlayer target = GetPlayerByName(args[1]);
-	if (!target.Exists())
-	{
-		NotifyMap("~r~Invalid player.");
-		return false;
-	}
-	if (!target.IsInAnyVehicle(true))
-	{
-		NotifyMap("~r~That player is not in a Vehicle.");
-		return false;
-	}
-	if (!target.GetCurrentVehicle().RequestControl(true))
-	{
-		NotifyMap("~r~Unable to request control of Vehicle entity.");
-		return false;
-	}
-	target.GetCurrentVehicle().Explode();
-	NotifyMap("~g~Boom. If no boom, try ~p~explode_vehicle2.");
-	return true;
-}
-
-bool ExplodeVehicleCommand2(std::vector<std::string> args)
-{
-	if (args.size() < 2)
-	{
-		NotifyMap("~r~Usage: explode_vehicle2 [player name]");
-		return false;
-	}
-	CPlayer target = GetPlayerByName(args[1]);
-	if (!target.Exists())
-	{
-		NotifyMap("~r~Invalid player.");
-		return false;
-	}
-	if (!target.IsInAnyVehicle(true))
-	{
-		NotifyMap("~r~That player is not in a Vehicle.");
-		return false;
-	}
-	CreateExplosion(target.GetCurrentVehicle().GetCoordinates(), ExplosionTypeGrenade, 3.0f, true, true, .05f);
-	return true;
-}
-
 bool SetVehicleSpeedCommand(std::vector<std::string> args)
 {
 	if (args.size() < 2)
@@ -97,7 +47,10 @@ bool TeleportCommand(std::vector<std::string> args)
 		NotifyMap("~r~Invalid player.");
 		return false;
 	}
-	GetLocalPlayer().SetCoordinates(target.GetCoordinates(true), false);
+	if (GetLocalPlayer().IsInAnyVehicle(true))
+		GetLocalPlayer().GetCurrentVehicle().SetCoordinates(target.GetCoordinates());
+	else
+		GetLocalPlayer().SetCoordinates(target.GetCoordinates(true));
 	char msg[128];
 	sprintf_s(msg, sizeof(msg), "~g~Teleported you to ~o~%s", target.GetName());
 	NotifyMap(std::string(msg));
@@ -122,6 +75,11 @@ bool SpawnVehicleCommand(std::vector<std::string> args)
 	}
 	Vector3 loc = GetLocalPlayer().GetCoordinates(true);
 	CVehicle veh = CreateVehicle($(args[1]), loc, GetLocalPlayer().GetHeading());
+	if (!veh.Exists())
+	{
+		NotifyMap("~r~Vehicle did not spawn. Did disable model spawn check fail?");
+		return true;
+	}
 	GetLocalPlayer().SetIntoVehicle(veh, VehicleSeatDriver);
 	char msg[128];
 	sprintf_s(msg, sizeof(msg), "~g~Spawned a ~p~%s.", args[1].c_str());
@@ -133,14 +91,12 @@ bool FindVehicleCommand(std::vector<std::string> args)
 	bool teleportToPly = true;
 	if (args.size() >= 2)
 		teleportToPly = strcmp(args[1].c_str(), "true") == 0;
-	Vector3 loc = GetLocalPlayer().GetCoordinates(true);
-	Vehicle closest = VEHICLE::GET_CLOSEST_VEHICLE(loc.x, loc.y, loc.z, 150.0f, 0, 2);
-	if (closest == NULL)
+	CVehicle veh = GetClosestVehicle(GetLocalPlayer().GetCoordinates(), 150.0f, );
+	if (!veh.Exists())
 	{
 		NotifyMap("~r~No near Vehicle found?");
 		return false;
 	}
-	CVehicle veh = CVehicle(closest);
 	veh.SetNeedsHotwire(false);
 	if(teleportToPly)
 		veh.SetCoordinates(GetLocalPlayer().GetCoordinates(true), false);
@@ -171,17 +127,6 @@ bool IntoPlayerVehicleCommand(std::vector<std::string> args)
 	{
 		NotifyMap("~r~Player is not inside a Vehicle.");
 		return true;
-	}
-	if (!target.GetCurrentVehicle().RequestControl(true))
-	{
-		bool requireControl = true;
-		if (args.size() >= 3)
-			bool needControl = args[2] == "true";
-		if (requireControl)
-		{
-			NotifyMap("~r~Unable to get network control of Vehicle. Try setting the last argument to ~p~false~r~ to ignore this.");
-			return false;
-		}
 	}
 	GetLocalPlayer().SetIntoVehicle(target.GetCurrentVehicle(), VehicleSeatPassenger);
 	NotifyMap("~g~You are now a passenger inside that Player's Vehicle.");
@@ -215,6 +160,12 @@ bool FlyThroughWindshieldCommand(std::vector<std::string> args)
 	GetLocalPlayer().GetPed().SetFlyThroughWindscreen(!GetLocalPlayer().GetPed().CanFlyThroughWindscreen());
 	NotifyMap("~g~Toggled fly through windscreen ability.");
 	return true;
+}
+
+bool InvincibilityVehicleCommand(std::vector<std::string> args)
+{
+	GetLocalPlayer().GetCurrentVehicle().SetInvincible(true);
+	NotifyMap("~g~Your Vehicle is now invincible.");
 }
 
 bool InvincibilityCommand(std::vector<std::string> args)
@@ -263,6 +214,23 @@ bool OverlayCommand(std::vector<std::string>)
 	return true;
 }
 
+bool ExplodeCommand(std::vector<std::string> args)
+{
+	CPlayer target = GetLocalPlayer();
+	if (args.size() >= 2)
+	{
+		target = GetPlayerByName(args[1]);
+		if (!target.Exists())
+		{
+			NotifyMap("~r~Invalid player.");
+			return false;
+		}
+	}
+	CreateExplosion(target.GetCoordinates(), ExplosionTypeRocket, 150.0f);
+	NotifyMap("~g~Boom.");
+	return true;
+}
+
 bool ExplodeNearbyVehiclesCommand(std::vector<std::string>)
 {
 		int killCount = 0;
@@ -282,6 +250,27 @@ bool ExplodeNearbyVehiclesCommand(std::vector<std::string>)
 		sprintf_s(msg, sizeof(msg), "~g~Exploded ~b~%i ~g~vehicles.", killCount);
 		NotifyMap(std::string(msg));
 		return true;
+}
+
+bool ToggleSelfDrop(std::vector<std::string>)
+{
+	selfdrop = !selfdrop;
+	char msg[128];
+	sprintf_s(msg, sizeof(msg), "~g~Self-drop now ~p~%s.", (selfdrop) ? "enabled" : "disabled");
+	NotifyMap(std::string(msg));
+	return true;
+}
+
+bool ExplodePedsCommand(std::vector<std::string>)
+{
+	UpdateNearbyPeds(GetLocalPlayer().GetPed().GetHandle(), 150);
+	for each(Ped p in GetNearbyPeds())
+	{
+		CPlayer ply = CPlayer(p);
+		if (!ply.IsPlayer())
+			CreateExplosion(ply.GetCoordinates(), ExplosionTypeRocket, 150.0f);
+	}
+	NotifyMap("~r~Boom.");
 	return true;
 }
 
@@ -289,14 +278,16 @@ void RegisterCommands()
 {
 	AddCommand("wanted_level", WantedLevelCommand);
 	AddCommand("godmode", InvincibilityCommand);
+	AddCommand("godmode_vehicle", InvincibilityVehicleCommand);
 	AddCommand("drop_money", DropMoneyCommand);
 	AddCommand("find_vehicle", FindVehicleCommand);
+	AddCommand("self_drop", ToggleSelfDrop);
+	AddCommand("explode_peds", ExplodePedsCommand);
 	AddCommand("spawn_vehicle", SpawnVehicleCommand);
-	AddCommand("explode_vehicle", ExplodeVehicleCommand);
-	AddCommand("explode_vehicle2", ExplodeVehicleCommand2);
 	AddCommand("kill_nearby", KillNearbyEnemiesCommand);
 	AddCommand("overlay", OverlayCommand);
 	AddCommand("fix_vehicle", FixVehicleCommand);
+	AddCommand("explode", ExplodeCommand);
 	AddCommand("into_vehicle", IntoPlayerVehicleCommand);
 	AddCommand("explode_nearby", ExplodeNearbyVehiclesCommand);
 	AddCommand("give_weapons", GiveAllWeaponsCommand);

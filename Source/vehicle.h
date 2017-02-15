@@ -38,3 +38,4 @@ public:
 	bool HasWeapons();
 };
 CVehicle CreateVehicle(Hash model, Vector3 pos, float heading = 0.0f);
+CVehicle GetClosestVehicle(Vector3 pos, float radius, int flags = 0, Hash model = 0);

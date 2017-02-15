@@ -154,3 +154,8 @@ CVehicle CreateVehicle(Hash model, Vector3 pos, float heading)
 {
 	return CVehicle(VEHICLE::CREATE_VEHICLE(model, pos.x, pos.y, pos.z, heading, FALSE, TRUE));
 }
+
+CVehicle GetClosestVehicle(Vector3 pos, float radius, int flags = 0, Hash model = 0)
+{
+	return CVehicle(VEHICLE::GET_CLOSEST_VEHICLE(pos.x, pos.y, pos.z, radius, model, flags));
+}
